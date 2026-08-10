@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bharvi Bhangale | Home</title>
+    <meta name="description" content="Personal portfolio of Bharvi Bhangale, an Information Technology student and creative marketer. Discover my journey, interests, skills, and vision.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Style Sheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="page-home">
+    <!-- Custom Cursor -->
+    <div class="custom-cursor"></div>
+    <div class="custom-cursor-follower"></div>
+
+    <!-- Navigation Header -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="index.html" class="logo" id="nav-logo">Bharvi<span>.</span></a>
+            <nav class="nav-links">
+                <a href="index.html" class="nav-link active" id="link-hero">Home</a>
+                <a href="story.html" class="nav-link" id="link-story">My Story</a>
+                <a href="ncc.html" class="nav-link" id="link-ncc">NCC</a>
+                <a href="vision.html" class="nav-link" id="link-vision">Vision</a>
+            </nav>
+            <div class="menu-toggle" id="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main>
+        <!-- Page 1: Hero / Introduction -->
+        <section id="hero" class="section hero-section">
+            <div class="section-container hero-container">
+                <div class="hero-content">
+                    <span class="hero-subtitle">Welcome to my space</span>
+                    <h1 class="hero-title">Bharvi Bhangale</h1>
+                    <p class="hero-tagline">Engineering Student • Creative Marketer • Lifelong Learner</p>
+                    <p class="hero-intro">
+                        Hi, I'm Bharvi Bhangale, an Information Technology student with a passion for creativity, digital marketing, and continuous learning. I enjoy solving problems, building meaningful experiences, and growing every day.
+                    </p>
+                    <div class="hero-ctas">
+                        <a href="story.html" class="btn btn-primary" id="cta-about">About Me</a>
+                        <a href="vision.html" class="btn btn-secondary" id="cta-journey">My Journey</a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="image-wrapper hero-image-wrapper">
+                        <img src="./assets/WhatsApp Image 2026-07-08 at 9.13.53 PM.jpeg" alt="Bharvi Bhangale" id="hero-img" class="parallax-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="image-fallback" style="display: none;">
+                            <div class="fallback-avatar">BB</div>
+                        </div>
+                        <div class="image-decorator decorator-1"></div>
+                        <div class="image-decorator decorator-2"></div>
+                    </div>
+                </div>
+            </div>
+            <a href="story.html" class="scroll-indicator" id="scroll-btn">
+                <span>Explore My Story</span>
+                <i data-lucide="chevron-right"></i>
+            </a>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p class="footer-text">Made with <i data-lucide="heart" class="heart-icon"></i> by Bharvi Bhangale &copy; 2026</p>
+        </div>
+    </footer>
+
+    <!-- GSAP & Plugins CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- Lenis for smooth scroll CDN -->
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.27/bundled/lenis.min.js"></script>
+    <!-- Vanilla-tilt CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+    <!-- Core JS -->
+    <script src="main.js"></script>
+</body>
+</html>
