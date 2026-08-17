@@ -11,6 +11,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     
@@ -44,32 +47,32 @@
     <main class="page-content-padding">
         <!-- Vision Section -->
         <section id="vision-page" class="vision-page-section">
-            <div class="section-container">
-                <div class="vision-grid">
-                    <div class="vision-dreams">
+            <div class="container">
+                <div class="row align-items-center g-5 vision-grid">
+                    <div class="col-lg-7 vision-dreams">
                         <span class="section-subtitle">Looking Forward</span>
                         <h2 class="section-title">Where is she going?</h2>
-                        <p class="vision-desc">
+                        <p class="vision-desc text-muted">
                             My immediate aspirations focus on combining engineering logic with creative outreach. Here are some dreams I'm actively working towards:
                         </p>
-                        <ul class="dreams-list">
-                            <li>
+                        <ul class="dreams-list p-0">
+                            <li class="d-flex align-items-center mb-3">
                                 <div class="dream-bullet"><i data-lucide="check"></i></div>
                                 <span>Become an excellent, innovative IT Engineer</span>
                             </li>
-                            <li>
+                            <li class="d-flex align-items-center mb-3">
                                 <div class="dream-bullet"><i data-lucide="check"></i></div>
                                 <span>Build impactful projects that solve daily challenges</span>
                             </li>
-                            <li>
+                            <li class="d-flex align-items-center mb-3">
                                 <div class="dream-bullet"><i data-lucide="check"></i></div>
                                 <span>Deepen my understanding of Artificial Intelligence & ML</span>
                             </li>
-                            <li>
+                            <li class="d-flex align-items-center mb-3">
                                 <div class="dream-bullet"><i data-lucide="check"></i></div>
                                 <span>Travel the world to explore diverse cultures and perspectives</span>
                             </li>
-                            <li>
+                            <li class="d-flex align-items-center mb-3">
                                 <div class="dream-bullet"><i data-lucide="check"></i></div>
                                 <span>Keep improving, adapting, and growing every single day</span>
                             </li>
@@ -77,12 +80,14 @@
                     </div>
 
                     <!-- Quote Block -->
-                    <div class="quote-card">
-                        <div class="quote-icon"><i data-lucide="quote"></i></div>
-                        <blockquote class="aesthetic-quote">
-                            "The best way to predict the future is to create it. Every line of code, every marketing campaign, and every small effort is a building block for tomorrow."
-                        </blockquote>
-                        <cite class="quote-author">— Bharvi Bhangale</cite>
+                    <div class="col-lg-5">
+                        <div class="quote-card">
+                            <div class="quote-icon"><i data-lucide="quote"></i></div>
+                            <blockquote class="aesthetic-quote">
+                                "The best way to predict the future is to create it. Every line of code, every marketing campaign, and every small effort is a building block for tomorrow."
+                            </blockquote>
+                            <cite class="quote-author">— Bharvi Bhangale</cite>
+                        </div>
                     </div>
                 </div>
 
@@ -91,7 +96,7 @@
                 <!-- Gallery Section -->
                 <div class="gallery-container">
                     <h3 class="subsection-title text-center">Aesthetic Snippets</h3>
-                    <p class="gallery-desc text-center">A visual curation of my environments, inspirations, and creative focus.</p>
+                    <p class="gallery-desc text-center mb-5">A visual curation of my environments, inspirations, and creative focus.</p>
                     
                     <div class="gallery-grid">
                         <div class="gallery-item item-1">
@@ -138,55 +143,59 @@
                 <!-- Contact & Social Connect -->
                 <div class="contact-container">
                     <h3 class="subsection-title text-center">Let's Connect</h3>
-                    <p class="contact-subtitle text-center">Have a question or want to work together? Feel free to reach out!</p>
+                    <p class="contact-subtitle text-center mb-5">Have a question or want to work together? Feel free to reach out!</p>
                     
-                    <div class="contact-wrapper">
-                        <div class="contact-info-list">
-                            <a href="mailto:bharvibbhangale@gmail.com" class="contact-info-item">
-                                <div class="contact-icon-box">
-                                    <i data-lucide="mail"></i>
-                                </div>
-                                <div class="contact-info-text">
-                                    <span>Email Me</span>
-                                    <p>bharvibbhangale@gmail.com</p>
-                                </div>
-                            </a>
-                            <a href="https://linkedin.com/in/bharvi-bhangale" target="_blank" rel="noopener noreferrer" class="contact-info-item">
-                                <div class="contact-icon-box">
-                                    <i data-lucide="linkedin"></i>
-                                </div>
-                                <div class="contact-info-text">
-                                    <span>LinkedIn</span>
-                                    <p>linkedin.com/in/bharvi-bhangale</p>
-                                </div>
-                            </a>
-                            <a href="https://instagram.com/bharvi.bhangale" target="_blank" rel="noopener noreferrer" class="contact-info-item">
-                                <div class="contact-icon-box">
-                                    <i data-lucide="instagram"></i>
-                                </div>
-                                <div class="contact-info-text">
-                                    <span>Instagram</span>
-                                    <p>@bharvi.bhangale</p>
-                                </div>
-                            </a>
+                    <div class="row g-5 contact-wrapper">
+                        <div class="col-lg-5">
+                            <div class="contact-info-list d-flex flex-column gap-3">
+                                <a href="mailto:bharvibbhangale@gmail.com" class="contact-info-item d-flex align-items-center">
+                                    <div class="contact-icon-box">
+                                        <i data-lucide="mail"></i>
+                                    </div>
+                                    <div class="contact-info-text">
+                                        <span>Email Me</span>
+                                        <p class="m-0 text-dark">bharvibbhangale@gmail.com</p>
+                                    </div>
+                                </a>
+                                <a href="https://linkedin.com/in/bharvi-bhangale" target="_blank" rel="noopener noreferrer" class="contact-info-item d-flex align-items-center">
+                                    <div class="contact-icon-box">
+                                        <i data-lucide="linkedin"></i>
+                                    </div>
+                                    <div class="contact-info-text">
+                                        <span>LinkedIn</span>
+                                        <p class="m-0 text-dark">linkedin.com/in/bharvi-bhangale</p>
+                                    </div>
+                                </a>
+                                <a href="https://instagram.com/bharvi.bhangale" target="_blank" rel="noopener noreferrer" class="contact-info-item d-flex align-items-center">
+                                    <div class="contact-icon-box">
+                                        <i data-lucide="instagram"></i>
+                                    </div>
+                                    <div class="contact-info-text">
+                                        <span>Instagram</span>
+                                        <p class="m-0 text-dark">@bharvi.bhangale</p>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
 
-                        <!-- Minimal Form -->
-                        <form class="contact-form" onsubmit="event.preventDefault(); alert('Message sent successfully!'); this.reset();">
-                            <div class="form-group">
-                                <label for="form-name">Name</label>
-                                <input type="text" id="form-name" placeholder="Your Name" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="form-email">Email</label>
-                                <input type="email" id="form-email" placeholder="Your Email Address" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="form-message">Message</label>
-                                <textarea id="form-message" rows="4" placeholder="Your Message" required></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary btn-submit">Send Message</button>
-                        </form>
+                        <!-- Minimal Form using Bootstrap Form Controls -->
+                        <div class="col-lg-7">
+                            <form class="contact-form" onsubmit="event.preventDefault(); alert('Message sent successfully!'); this.reset();">
+                                <div class="mb-4">
+                                    <label for="form-name" class="form-label">Name</label>
+                                    <input type="text" class="form-control" id="form-name" placeholder="Your Name" required>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="form-email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="form-email" placeholder="Your Email Address" required>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="form-message" class="form-label">Message</label>
+                                    <textarea class="form-control" id="form-message" rows="4" placeholder="Your Message" required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-submit w-100">Send Message</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -196,15 +205,18 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-container">
-            <p class="footer-text">Made with <i data-lucide="heart" class="heart-icon"></i> by Bharvi Bhangale &copy; 2026</p>
+            <p class="footer-text m-0">Made with <i data-lucide="heart" class="heart-icon"></i> by Bharvi Bhangale &copy; 2026</p>
         </div>
     </footer>
 
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    
     <!-- GSAP & Plugins CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <!-- Lenis for smooth scroll CDN -->
-    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.27/bundled/lenis.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
     <!-- Vanilla-tilt CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
     <!-- Core JS -->
