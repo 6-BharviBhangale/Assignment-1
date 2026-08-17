@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     // 1. Check for missing library fallbacks
     const hasGSAP = typeof gsap !== 'undefined';
+    const hasScrollTrigger = typeof ScrollTrigger !== 'undefined';
     const hasLenis = typeof Lenis !== 'undefined';
     const hasVanillaTilt = typeof VanillaTilt !== 'undefined';
 
@@ -72,9 +73,15 @@ document.addEventListener("DOMContentLoaded", () => {
             duration: 1.2,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
             smoothWheel: true,
-            touchMultiplier: 2,
+            touchMultiplier: 1.5,
         });
 
+        // Notify GSAP ScrollTrigger to update positions on Lenis scroll
+        if (hasGSAP && hasScrollTrigger) {
+            lenis.on('scroll', ScrollTrigger.update);
+        }
+
+        // Single, unified high-resolution rendering loop
         function raf(time) {
             lenis.raf(time);
             requestAnimationFrame(raf);
