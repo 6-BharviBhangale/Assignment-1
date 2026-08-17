@@ -11,6 +11,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     
@@ -44,27 +47,29 @@
     <main>
         <!-- Page 1: Hero / Introduction -->
         <section id="hero" class="section hero-section">
-            <div class="section-container hero-container">
-                <div class="hero-content">
-                    <span class="hero-subtitle">Welcome to my space</span>
-                    <h1 class="hero-title">Bharvi Bhangale</h1>
-                    <p class="hero-tagline">Engineering Student • Creative Marketer • Lifelong Learner</p>
-                    <p class="hero-intro">
-                        Hi, I'm Bharvi Bhangale, an Information Technology student with a passion for creativity, digital marketing, and continuous learning. I enjoy solving problems, building meaningful experiences, and growing every day.
-                    </p>
-                    <div class="hero-ctas">
-                        <a href="story.html" class="btn btn-primary" id="cta-about">About Me</a>
-                        <a href="vision.html" class="btn btn-secondary" id="cta-journey">My Journey</a>
-                    </div>
-                </div>
-                <div class="hero-visual">
-                    <div class="image-wrapper hero-image-wrapper">
-                        <img src="./assets/WhatsApp Image 2026-07-08 at 9.13.53 PM.jpeg" alt="Bharvi Bhangale" id="hero-img" class="parallax-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                        <div class="image-fallback" style="display: none;">
-                            <div class="fallback-avatar">BB</div>
+            <div class="container hero-container">
+                <div class="row align-items-center g-5">
+                    <div class="col-lg-7 hero-content">
+                        <span class="hero-subtitle">Welcome to my space</span>
+                        <h1 class="hero-title">Bharvi Bhangale</h1>
+                        <p class="hero-tagline">Engineering Student • Creative Marketer • Lifelong Learner</p>
+                        <p class="hero-intro">
+                            Hi, I'm Bharvi Bhangale, an Information Technology student with a passion for creativity, digital marketing, and continuous learning. I enjoy solving problems, building meaningful experiences, and growing every day.
+                        </p>
+                        <div class="hero-ctas">
+                            <a href="story.html" class="btn btn-primary" id="cta-about">About Me</a>
+                            <a href="vision.html" class="btn btn-secondary" id="cta-journey">My Journey</a>
                         </div>
-                        <div class="image-decorator decorator-1"></div>
-                        <div class="image-decorator decorator-2"></div>
+                    </div>
+                    <div class="col-lg-5 hero-visual d-flex justify-content-center">
+                        <div class="image-wrapper hero-image-wrapper">
+                            <img src="./assets/bharvi_hero.jpeg" alt="Bharvi Bhangale" id="hero-img" class="parallax-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="image-fallback" style="display: none;">
+                                <div class="fallback-avatar">BB</div>
+                            </div>
+                            <div class="image-decorator decorator-1"></div>
+                            <div class="image-decorator decorator-2"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -82,11 +87,14 @@
         </div>
     </footer>
 
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    
     <!-- GSAP & Plugins CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <!-- Lenis for smooth scroll CDN -->
-    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.27/bundled/lenis.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
     <!-- Vanilla-tilt CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
     <!-- Core JS -->
