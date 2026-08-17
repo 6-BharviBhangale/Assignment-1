@@ -11,6 +11,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     
@@ -44,30 +47,31 @@
     <main class="page-content-padding">
         <!-- NCC Hero & Introduction Section -->
         <section id="ncc-hero-section" class="ncc-hero-sec">
-            <div class="section-container ncc-hero-grid">
-                <div class="ncc-hero-text">
-                    <span class="hero-subtitle">National Cadet Corps</span>
-                    <h1 class="hero-title font-primary">National Cadet Corps</h1>
-                    <p class="hero-tagline">"Discipline. Leadership. Service Before Self."</p>
-                    <div class="ncc-intro-box">
-                        <p>
-                            Joining NCC wasn't just about wearing a uniform—it was about learning discipline, resilience, teamwork, and responsibility. Every camp, parade, and challenge helped shape the person I am today.
-                        </p>
+            <div class="container">
+                <div class="row align-items-center g-5 ncc-hero-grid">
+                    <div class="col-lg-7 ncc-hero-text">
+                        <span class="hero-subtitle">National Cadet Corps</span>
+                        <h1 class="hero-title font-primary">National Cadet Corps</h1>
+                        <p class="hero-tagline">"Discipline. Leadership. Service Before Self."</p>
+                        <div class="ncc-intro-box">
+                            <p>
+                                Joining NCC wasn't just about wearing a uniform—it was about learning discipline, resilience, teamwork, and responsibility. Every camp, parade, and challenge helped shape the person I am today.
+                            </p>
+                        </div>
+                        <div class="ncc-ctas-inline">
+                            <a href="#ncc-journey" class="btn btn-primary">View Journey</a>
+                            <a href="#ncc-skills" class="btn btn-secondary">Skills & Awards</a>
+                        </div>
                     </div>
-                    <div class="ncc-ctas-inline">
-                        <a href="#ncc-journey" class="btn btn-primary">View Journey</a>
-                        <a href="#ncc-skills" class="btn btn-secondary">Skills & Awards</a>
-                    </div>
-                </div>
-                
-                <!-- Transparent NCC Portrait Visual -->
-                <div class="ncc-hero-visual">
-                    <div class="ncc-portrait-container">
-                        <!-- Custom shadow background canvas -->
-                        <div class="ncc-bg-glow"></div>
-                        <img src="./assets/ncc_hero.png" alt="Bharvi in NCC Uniform" class="ncc-transparent-img floating-art" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                        <div class="ncc-fallback-art" style="display:none;">
-                            <div class="ncc-art-badge">NCC</div>
+                    
+                    <!-- Transparent NCC Portrait Visual -->
+                    <div class="col-lg-5 ncc-hero-visual d-flex justify-content-center">
+                        <div class="ncc-portrait-container">
+                            <div class="ncc-bg-glow"></div>
+                            <img src="./assets/ncc_hero.png" alt="Bharvi in NCC Uniform" class="ncc-transparent-img floating-art" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="ncc-fallback-art" style="display:none;">
+                                <div class="ncc-art-badge">NCC</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -76,7 +80,7 @@
 
         <!-- Journey Timeline Block -->
         <section id="ncc-journey" class="ncc-journey-sec">
-            <div class="section-container">
+            <div class="container">
                 <h3 class="subsection-title text-center">Journey Flow</h3>
                 <div class="ncc-flow-container">
                     
@@ -144,9 +148,9 @@
 
         <!-- Gallery Grid (Masonry Grid) -->
         <section id="ncc-gallery" class="ncc-gallery-sec">
-            <div class="section-container">
+            <div class="container">
                 <h3 class="subsection-title text-center">Aesthetic NCC Gallery</h3>
-                <div class="gallery-desc text-center">A visual walk through camps, parade routines, and training milestones.</div>
+                <div class="gallery-desc text-center mb-5">A visual walk through camps, parade routines, and training milestones.</div>
                 
                 <div class="ncc-masonry-grid">
                     <div class="ncc-gallery-card span-2 height-2">
@@ -182,56 +186,72 @@
 
         <!-- Skills Gained Cards -->
         <section id="ncc-skills" class="ncc-skills-sec">
-            <div class="section-container">
+            <div class="container">
                 <h3 class="subsection-title text-center">Skills Gained</h3>
-                <div class="ncc-skills-grid">
+                <div class="row g-4 justify-content-center ncc-skills-grid">
                     
-                    <div class="ncc-skill-card" data-tilt>
-                        <div class="skill-icon-circle"><i data-lucide="compass"></i></div>
-                        <h4>Leadership</h4>
-                        <p>Leading squads, guiding peers, and taking charge during events.</p>
+                    <div class="col-sm-6 col-md-4 col-lg-3 d-flex">
+                        <div class="ncc-skill-card card w-100" data-tilt>
+                            <div class="skill-icon-circle"><i data-lucide="compass"></i></div>
+                            <h4>Leadership</h4>
+                            <p>Leading squads, guiding peers, and taking charge during events.</p>
+                        </div>
                     </div>
                     
-                    <div class="ncc-skill-card" data-tilt>
-                        <div class="skill-icon-circle"><i data-lucide="shield"></i></div>
-                        <h4>Discipline</h4>
-                        <p>Punctuality, consistency, and standard compliance in tasks.</p>
+                    <div class="col-sm-6 col-md-4 col-lg-3 d-flex">
+                        <div class="ncc-skill-card card w-100" data-tilt>
+                            <div class="skill-icon-circle"><i data-lucide="shield"></i></div>
+                            <h4>Discipline</h4>
+                            <p>Punctuality, consistency, and standard compliance in tasks.</p>
+                        </div>
                     </div>
                     
-                    <div class="ncc-skill-card" data-tilt>
-                        <div class="skill-icon-circle"><i data-lucide="users-2"></i></div>
-                        <h4>Teamwork</h4>
-                        <p>Collaborating in groups to complete camp drills and projects.</p>
+                    <div class="col-sm-6 col-md-4 col-lg-3 d-flex">
+                        <div class="ncc-skill-card card w-100" data-tilt>
+                            <div class="skill-icon-circle"><i data-lucide="users-2"></i></div>
+                            <h4>Teamwork</h4>
+                            <p>Collaborating in groups to complete camp drills and projects.</p>
+                        </div>
                     </div>
                     
-                    <div class="ncc-skill-card" data-tilt>
-                        <div class="skill-icon-circle"><i data-lucide="clock"></i></div>
-                        <h4>Time Management</h4>
-                        <p>Fulfilling morning assemblies and strict training schedules.</p>
+                    <div class="col-sm-6 col-md-4 col-lg-3 d-flex">
+                        <div class="ncc-skill-card card w-100" data-tilt>
+                            <div class="skill-icon-circle"><i data-lucide="clock"></i></div>
+                            <h4>Time Management</h4>
+                            <p>Fulfilling morning assemblies and strict training schedules.</p>
+                        </div>
                     </div>
                     
-                    <div class="ncc-skill-card" data-tilt>
-                        <div class="skill-icon-circle"><i data-lucide="dumbbell"></i></div>
-                        <h4>Physical Fitness</h4>
-                        <p>Stamina, regular exercises, running drills, and camp training.</p>
+                    <div class="col-sm-6 col-md-4 col-lg-3 d-flex">
+                        <div class="ncc-skill-card card w-100" data-tilt>
+                            <div class="skill-icon-circle"><i data-lucide="dumbbell"></i></div>
+                            <h4>Physical Fitness</h4>
+                            <p>Stamina, regular exercises, running drills, and camp training.</p>
+                        </div>
                     </div>
                     
-                    <div class="ncc-skill-card" data-tilt>
-                        <div class="skill-icon-circle"><i data-lucide="smile"></i></div>
-                        <h4>Confidence</h4>
-                        <p>Polishing public communication and commanding cadet squads.</p>
+                    <div class="col-sm-6 col-md-4 col-lg-3 d-flex">
+                        <div class="ncc-skill-card card w-100" data-tilt>
+                            <div class="skill-icon-circle"><i data-lucide="smile"></i></div>
+                            <h4>Confidence</h4>
+                            <p>Polishing public communication and commanding cadet squads.</p>
+                        </div>
                     </div>
                     
-                    <div class="ncc-skill-card" data-tilt>
-                        <div class="skill-icon-circle"><i data-lucide="check-circle-2"></i></div>
-                        <h4>Responsibility</h4>
-                        <p>Ensuring inventory management and security during camp events.</p>
+                    <div class="col-sm-6 col-md-4 col-lg-3 d-flex">
+                        <div class="ncc-skill-card card w-100" data-tilt>
+                            <div class="skill-icon-circle"><i data-lucide="check-circle-2"></i></div>
+                            <h4>Responsibility</h4>
+                            <p>Ensuring inventory management and security during camp events.</p>
+                        </div>
                     </div>
                     
-                    <div class="ncc-skill-card" data-tilt>
-                        <div class="skill-icon-circle"><i data-lucide="flag"></i></div>
-                        <h4>Patriotism</h4>
-                        <p>Fostering deep dedication to national values and community service.</p>
+                    <div class="col-sm-6 col-md-4 col-lg-3 d-flex">
+                        <div class="ncc-skill-card card w-100" data-tilt>
+                            <div class="skill-icon-circle"><i data-lucide="flag"></i></div>
+                            <h4>Patriotism</h4>
+                            <p>Fostering deep dedication to national values and community service.</p>
+                        </div>
                     </div>
                     
                 </div>
@@ -240,39 +260,47 @@
 
         <!-- Achievements Grid -->
         <section id="ncc-achievements" class="ncc-achievements-sec">
-            <div class="section-container">
+            <div class="container">
                 <h3 class="subsection-title text-center">Achievements & Highlights</h3>
-                <div class="ncc-achievements-grid">
+                <div class="row g-4 ncc-achievements-grid">
                     
-                    <div class="ncc-achievement-item">
-                        <div class="achievement-icon-box"><i data-lucide="scroll"></i></div>
-                        <div class="achievement-text">
-                            <h4>National Certificates</h4>
-                            <p>Completed standard certifications, validating theoretical and practical skills in drill, weapon training, and field craft.</p>
+                    <div class="col-md-6">
+                        <div class="ncc-achievement-item card h-100 flex-row align-items-start">
+                            <div class="achievement-icon-box"><i data-lucide="scroll"></i></div>
+                            <div class="achievement-text">
+                                <h4>National Certificates</h4>
+                                <p>Completed standard certifications, validating theoretical and practical skills in drill, weapon training, and field craft.</p>
+                            </div>
                         </div>
                     </div>
                     
-                    <div class="ncc-achievement-item">
-                        <div class="achievement-icon-box"><i data-lucide="tent"></i></div>
-                        <div class="achievement-text">
-                            <h4>Camps Attended</h4>
-                            <p>Completed Combined Annual Training Camp (CATC), exploring obstacle course runs and cross-country drills.</p>
+                    <div class="col-md-6">
+                        <div class="ncc-achievement-item card h-100 flex-row align-items-start">
+                            <div class="achievement-icon-box"><i data-lucide="tent"></i></div>
+                            <div class="achievement-text">
+                                <h4>Camps Attended</h4>
+                                <p>Completed Combined Annual Training Camp (CATC), exploring obstacle course runs and cross-country drills.</p>
+                            </div>
                         </div>
                     </div>
                     
-                    <div class="ncc-achievement-item">
-                        <div class="achievement-icon-box"><i data-lucide="star"></i></div>
-                        <div class="achievement-text">
-                            <h4>Special Awards</h4>
-                            <p>Selected for drill contingents and outstanding parade performance recognition.</p>
+                    <div class="col-md-6">
+                        <div class="ncc-achievement-item card h-100 flex-row align-items-start">
+                            <div class="achievement-icon-box"><i data-lucide="star"></i></div>
+                            <div class="achievement-text">
+                                <h4>Special Awards</h4>
+                                <p>Selected for drill contingents and outstanding parade performance recognition.</p>
+                            </div>
                         </div>
                     </div>
                     
-                    <div class="ncc-achievement-item">
-                        <div class="achievement-icon-box"><i data-lucide="user-check"></i></div>
-                        <div class="achievement-text">
-                            <h4>Leadership Roles</h4>
-                            <p>Appointed to guide training squads, showing organizational and counseling capacities.</p>
+                    <div class="col-md-6">
+                        <div class="ncc-achievement-item card h-100 flex-row align-items-start">
+                            <div class="achievement-icon-box"><i data-lucide="user-check"></i></div>
+                            <div class="achievement-text">
+                                <h4>Leadership Roles</h4>
+                                <p>Appointed to guide training squads, showing organizational and counseling capacities.</p>
+                            </div>
                         </div>
                     </div>
                     
@@ -282,39 +310,45 @@
 
         <!-- Memorable Moments Carousel -->
         <section id="ncc-moments" class="ncc-moments-sec">
-            <div class="section-container">
+            <div class="container">
                 <h3 class="subsection-title text-center">Memorable Moments</h3>
                 
                 <div class="moments-carousel-wrapper">
-                    <div class="moments-carousel">
+                    <div class="row g-4 justify-content-center moments-carousel">
                         
-                        <div class="moment-slide">
-                            <div class="moment-img">
-                                <img src="./assets/ncc_camp.png" alt="Camp morning">
-                            </div>
-                            <div class="moment-desc">
-                                <h5>CATC Morning Assembly</h5>
-                                <p>Waking up at 4:30 AM in freezing mist, running drills, and drinking tea with fellow cadets. Truly unforgettable team bonding.</p>
+                        <div class="col-md-6 col-lg-4 d-flex">
+                            <div class="moment-slide card w-100">
+                                <div class="moment-img">
+                                    <img src="./assets/ncc_camp.png" alt="Camp morning">
+                                </div>
+                                <div class="moment-desc card-body">
+                                    <h5>CATC Morning Assembly</h5>
+                                    <p>Waking up at 4:30 AM in freezing mist, running drills, and drinking tea with fellow cadets. Truly unforgettable team bonding.</p>
+                                </div>
                             </div>
                         </div>
                         
-                        <div class="moment-slide">
-                            <div class="moment-img">
-                                <img src="./assets/ncc_drill.png" alt="Squad Parade">
-                            </div>
-                            <div class="moment-desc">
-                                <h5>Independence Day Drill</h5>
-                                <p>Marching in perfect rhythm under the beating sun, saluting the tri-color flag while feeling a surge of pride.</p>
+                        <div class="col-md-6 col-lg-4 d-flex">
+                            <div class="moment-slide card w-100">
+                                <div class="moment-img">
+                                    <img src="./assets/ncc_drill.png" alt="Squad Parade">
+                                </div>
+                                <div class="moment-desc card-body">
+                                    <h5>Independence Day Drill</h5>
+                                    <p>Marching in perfect rhythm under the beating sun, saluting the tri-color flag while feeling a surge of pride.</p>
+                                </div>
                             </div>
                         </div>
                         
-                        <div class="moment-slide">
-                            <div class="moment-img">
-                                <img src="./assets/ncc_uniform_portrait.png" alt="Accessories Prep">
-                            </div>
-                            <div class="moment-desc">
-                                <h5>The First Uniform Prep</h5>
-                                <p>Spending hours polishing shoes to a mirror shine, ironing the uniform creases, and aligning the beret hackle correctly.</p>
+                        <div class="col-md-6 col-lg-4 d-flex">
+                            <div class="moment-slide card w-100">
+                                <div class="moment-img">
+                                    <img src="./assets/ncc_uniform_portrait.png" alt="Accessories Prep">
+                                </div>
+                                <div class="moment-desc card-body">
+                                    <h5>The First Uniform Prep</h5>
+                                    <p>Spending hours polishing shoes to a mirror shine, ironing the uniform creases, and aligning the beret hackle correctly.</p>
+                                </div>
                             </div>
                         </div>
                         
@@ -325,18 +359,22 @@
 
         <!-- Favorite Quote Section -->
         <section class="ncc-quote-section">
-            <div class="section-container">
-                <div class="ncc-quotes-wrapper">
-                    <div class="ncc-quote-block">
-                        <div class="quote-symbol"><i data-lucide="quote"></i></div>
-                        <blockquote>
-                            "Discipline is choosing between what you want now and what you want most."
-                        </blockquote>
+            <div class="container">
+                <div class="row g-5 align-items-center ncc-quotes-wrapper">
+                    <div class="col-lg-6">
+                        <div class="ncc-quote-block">
+                            <div class="quote-symbol"><i data-lucide="quote"></i></div>
+                            <blockquote>
+                                "Discipline is choosing between what you want now and what you want most."
+                            </blockquote>
+                        </div>
                     </div>
-                    <div class="ncc-divider-vert"></div>
-                    <div class="ncc-quote-block motto-block">
-                        <span class="motto-label">NCC Motto</span>
-                        <h2>"Unity and Discipline"</h2>
+                    
+                    <div class="col-lg-6 border-start-lg">
+                        <div class="ncc-quote-block motto-block">
+                            <span class="motto-label">NCC Motto</span>
+                            <h2>"Unity and Discipline"</h2>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -350,11 +388,14 @@
         </div>
     </footer>
 
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    
     <!-- GSAP & Plugins CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <!-- Lenis for smooth scroll CDN -->
-    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.27/bundled/lenis.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
     <!-- Vanilla-tilt CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
     <!-- Core JS -->
