@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bharvi Bhangale | Academic Lab Assignments</title>
+    <meta name="description" content="Web Technology Lab Practicals (Assignments 1 to 9) developed by Bharvi Bhangale, IT Department, KBTCOE Nashik.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- React 18 & ReactDOM + Babel Standalone for In-Browser JSX Components -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="page-assignments">
+    <!-- Custom Cursor -->
+    <div class="custom-cursor"></div>
+    <div class="custom-cursor-follower"></div>
+
+    <!-- Navigation Header -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="index.html" class="logo" id="nav-logo">Bharvi<span>.</span></a>
+            <nav class="nav-links">
+                <a href="index.html" class="nav-link" id="link-hero">Home</a>
+                <a href="story.html" class="nav-link" id="link-story">My Story</a>
+                <a href="ncc.html" class="nav-link" id="link-ncc">NCC</a>
+                <a href="vision.html" class="nav-link" id="link-vision">Vision</a>
+                <a href="assignments.html" class="nav-link active" id="link-assignments">Assignments</a>
+            </nav>
+            <div class="menu-toggle" id="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="page-content-padding">
+        <!-- Hero Section for Assignments -->
+        <section class="assignments-hero-section">
+            <div class="container text-center">
+                <div class="lab-badge">
+                    <i data-lucide="graduation-cap"></i>
+                    <span>KBTCOE Nashik • Information Technology Dept</span>
+                </div>
+                <h1 class="section-title">Web Technology Lab Practicals</h1>
+                <p class="assignment-desc mx-auto" style="max-width: 760px;">
+                    Interactive coursework portfolio showcasing <strong>Assignments 1 through 9</strong>. Covers Semantic HTML5, CSS3 responsive design, JavaScript validations, automated student result computation with topper detection, Git/GitHub, React component architectures, and Node.js/Express REST APIs.
+                </p>
+            </div>
+        </section>
+
+        <!-- Main Assignment Dashboard Container -->
+        <div class="container pb-5">
+            <!-- Tab Switcher Navigation -->
+            <div class="assignment-nav-wrapper">
+                <div class="assignment-tabs" id="assignmentTabList" role="tablist">
+                    <button class="assignment-tab-btn active" data-tab="tab-assign1">
+                        <span class="tab-badge">Assn 1</span>
+                        <span>Semantic HTML5</span>
+                    </button>
+                    <button class="assignment-tab-btn" data-tab="tab-assign2">
+                        <span class="tab-badge">Assn 2</span>
+                        <span>Tables & Forms</span>
+                    </button>
+                    <button class="assignment-tab-btn" data-tab="tab-assign3">
+                        <span class="tab-badge">Assn 3</span>
+                        <span>Student Result & Topper 🏆</span>
+                    </button>
+                    <button class="assignment-tab-btn" data-tab="tab-assign4">
+                        <span class="tab-badge">Assn 4</span>
+                        <span>Employee Validation</span>
+                    </button>
+                    <button class="assignment-tab-btn" data-tab="tab-assign5">
+                        <span class="tab-badge">Assn 5</span>
+                        <span>Git & GitHub Guide</span>
+                    </button>
+                    <button class="assignment-tab-btn" data-tab="tab-assign6">
+                        <span class="tab-badge">Assn 6</span>
+                        <span>React Components</span>
+                    </button>
+                    <button class="assignment-tab-btn" data-tab="tab-assign7">
+                        <span class="tab-badge">Assn 7</span>
+                        <span>Expense Analyzer (React)</span>
+                    </button>
+                    <button class="assignment-tab-btn" data-tab="tab-assign8">
+                        <span class="tab-badge">Assn 8</span>
+                        <span>Student REST API & Postman</span>
+                    </button>
+                    <button class="assignment-tab-btn" data-tab="tab-assign9">
+                        <span class="tab-badge">Assn 9</span>
+                        <span>CRUD Mini Project (GFG)</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- ==========================================================================
+                 TAB 1: ASSIGNMENT 1 — SEMANTIC HTML5 & CSS3 RESPONSIVE
+                 ========================================================================== -->
+            <div class="assignment-pane active" id="tab-assign1">
+                <div class="assignment-card">
+                    <span class="assignment-header-badge">Assignment 1 • Core Web Standards</span>
+                    <h2 class="assignment-title">Responsive Webpage with HTML5 Semantic Tags & CSS3</h2>
+                    <p class="assignment-desc">
+                        Develop a structured and responsive webpage using HTML5 semantic tags (<code class="text-success">&lt;header&gt;</code>, <code class="text-success">&lt;nav&gt;</code>, <code class="text-success">&lt;main&gt;</code>, <code class="text-success">&lt;section&gt;</code>, <code class="text-success">&lt;article&gt;</code>, <code class="text-success">&lt;aside&gt;</code>, <code class="text-success">&lt;footer&gt;</code>) and modern CSS3 styling with flexbox, grid, and fluid media queries.
+                    </p>
+
+                    <!-- Interactive Semantic Architecture Diagram -->
+                    <div class="row g-4 mb-4">
+                        <div class="col-lg-6">
+                            <div class="p-4 rounded-4" style="background-color: var(--bg-secondary); border: 1px dashed var(--highlight);">
+                                <h4 class="mb-3 font-primary"><i data-lucide="layout" class="me-2 text-success"></i>Semantic Anatomy Preview</h4>
+                                <div class="p-2 mb-2 text-center rounded-3 bg-light border"><strong>&lt;header&gt;</strong> Header & Branding</div>
+                                <div class="p-2 mb-2 text-center rounded-3 bg-light border"><strong>&lt;nav&gt;</strong> Global Navigation Bar</div>
+                                <div class="p-3 mb-2 rounded-3 bg-white border">
+                                    <div class="text-center fw-bold mb-2 text-primary">&lt;main&gt; Primary Document Content</div>
+                                    <div class="row g-2">
+                                        <div class="col-8">
+                                            <div class="p-3 rounded-2 bg-light border text-center">
+                                                <strong>&lt;section&gt;</strong> Featured Topics
+                                                <div class="mt-2 p-2 bg-white rounded border small"><strong>&lt;article&gt;</strong> Independent Story / Post</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="p-3 h-100 rounded-2 bg-light border text-center small">
+                                                <strong>&lt;aside&gt;</strong> Sidebar / Related Notes
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-2 text-center rounded-3 bg-light border"><strong>&lt;footer&gt;</strong> Copyright & Accreditation</div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="p-4 rounded-4 bg-white border h-100">
+                                <h4 class="mb-3 font-primary"><i data-lucide="check-circle" class="me-2 text-success"></i>Implementation Highlights</h4>
+                                <ul class="list-unstyled d-flex flex-column gap-3 mb-0">
+                                    <li class="d-flex align-items-start gap-2">
+                                        <i data-lucide="check" class="text-success mt-1"></i>
+                                        <span><strong>SEO & Accessibility:</strong> Uses meaningful HTML5 semantic landmarks for screen-readers and web crawlers.</span>
+                                    </li>
+                                    <li class="d-flex align-items-start gap-2">
+                                        <i data-lucide="check" class="text-success mt-1"></i>
+                                        <span><strong>CSS3 Custom Properties:</strong> Implements a centralized design token system (<code>--bg-primary</code>, <code>--highlight</code>, <code>--card-bg</code>).</span>
+                                    </li>
+                                    <li class="d-flex align-items-start gap-2">
+                                        <i data-lucide="check" class="text-success mt-1"></i>
+                                        <span><strong>Fluid Breakpoints:</strong> Responsive across Ultra-wide, Desktop (1200px+), Tablet (768px), and Mobile (&lt;480px).</span>
+                                    </li>
+                                </ul>
+                                <div class="mt-4 pt-3 border-top">
+                                    <span class="badge bg-success-subtle text-success p-2 px-3 rounded-pill">Status: Fully Verified in Portfolio</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==========================================================================
+                 TAB 2: ASSIGNMENT 2 — STRUCTURED WEBPAGE (NAVBAR, TABLES, FORMS)
+                 ========================================================================== -->
+            <div class="assignment-pane" id="tab-assign2">
+                <div class="assignment-card">
+                    <span class="assignment-header-badge">Assignment 2 • Structured Elements</span>
+                    <h2 class="assignment-title">Structured Webpage with Navbar, Data Tables & Forms</h2>
+                    <p class="assignment-desc">
+                        Develop a structured webpage using HTML5 (including sticky navigation, styled tabular dataset, and diverse form controls) styled with CSS3.
+                    </p>
+
+                    <!-- Part A: Structured Data Table -->
+                    <div class="mb-5">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+                            <h4 class="m-0 font-primary"><i data-lucide="table" class="me-2 text-success"></i>IT Department Semester Course Curriculum Table</h4>
+                            <span class="badge bg-secondary-subtle text-dark">5 Subjects • 20 Credits</span>
+                        </div>
+                        <div class="table-responsive rounded-4 border">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th scope="col">Code</th>
+                                        <th scope="col">Subject Name</th>
+                                        <th scope="col">Type</th>
+                                        <th scope="col">Credits</th>
+                                        <th scope="col">Lead Faculty</th>
+                                        <th scope="col">Exam Weightage</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>IT301</strong></td>
+                                        <td>Web Technology & Applications</td>
+                                        <td><span class="badge bg-primary-subtle text-primary">Theory + Lab</span></td>
+                                        <td>4</td>
+                                        <td>Prof. S. Sharma</td>
+                                        <td>70 Theory + 30 In-Sem</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>IT302</strong></td>
+                                        <td>Database Management Systems</td>
+                                        <td><span class="badge bg-primary-subtle text-primary">Theory + Lab</span></td>
+                                        <td>4</td>
+                                        <td>Prof. R. Kulkarni</td>
+                                        <td>70 Theory + 30 In-Sem</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>IT303</strong></td>
+                                        <td>Operating Systems Architecture</td>
+                                        <td><span class="badge bg-info-subtle text-info">Theory</span></td>
+                                        <td>3</td>
+                                        <td>Prof. A. Patil</td>
+                                        <td>70 Theory + 30 In-Sem</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>IT304</strong></td>
+                                        <td>Computer Networks & Protocols</td>
+                                        <td><span class="badge bg-primary-subtle text-primary">Theory + Lab</span></td>
+                                        <td>4</td>
+                                        <td>Prof. M. Deshmukh</td>
+                                        <td>70 Theory + 30 In-Sem</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>IT305</strong></td>
+                                        <td>Software Engineering Methodologies</td>
+                                        <td><span class="badge bg-info-subtle text-info">Theory</span></td>
+                                        <td>3</td>
+                                        <td>Prof. V. Joshi</td>
+                                        <td>70 Theory + 30 In-Sem</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Part B: Comprehensive Form -->
+                    <div class="p-4 rounded-4" style="background-color: var(--bg-secondary); border: 1px solid var(--border-color);">
+                        <h4 class="mb-3 font-primary"><i data-lucide="edit-3" class="me-2 text-success"></i>Academic Feedback & Elective Enrollment Form</h4>
+                        <form id="assign2Form" onsubmit="event.preventDefault(); alert('Assignment 2 Form Submitted Successfully!'); this.reset();">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Student Full Name</label>
+                                    <input type="text" class="form-control" placeholder="e.g. Bharvi Bhangale" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Email Address</label>
+                                    <input type="email" class="form-control" placeholder="student@kbtcoe.edu.in" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Academic Year / Semester</label>
+                                    <select class="form-select form-control" required>
+                                        <option value="">Choose Semester...</option>
+                                        <option>SE - Semester 3</option>
+                                        <option>SE - Semester 4</option>
+                                        <option selected>TE - Semester 5</option>
+                                        <option>TE - Semester 6</option>
+                                        <option>BE - Semester 7</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Enrollment Date</label>
+                                    <input type="date" class="form-control" value="2026-08-01" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Preferred Elective</label>
+                                    <div class="pt-2">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="elective" id="el1" checked>
+                                            <label class="form-check-label" for="el1">AI / ML</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="elective" id="el2">
+                                            <label class="form-check-label" for="el2">Cybersecurity</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">Curriculum Feedback & Suggestions</label>
+                                    <textarea class="form-control" rows="3" placeholder="Provide course or lab feedback..." required></textarea>
+                                </div>
+                                <div class="col-12 text-end">
+                                    <button type="submit" class="btn btn-primary px-4">Submit Structured Form</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==========================================================================
+                 TAB 3: ASSIGNMENT 3 — STUDENT RESULT MANAGEMENT SYSTEM (WITH TOPPER)
+                 ========================================================================== -->
+            <div class="assignment-pane" id="tab-assign3">
+                <div class="assignment-card">
+                    <span class="assignment-header-badge">Assignment 3 • Dynamic JavaScript Application</span>
+                    <h2 class="assignment-title">Student Result Management System</h2>
+                    <p class="assignment-desc">
+                        Accepts student details and subject marks, dynamically calculates Total Marks and Percentage, evaluates Pass/Fail and Grades, updates records in real-time, and <strong>automatically identifies the Batch Topper</strong>.
+                    </p>
+
+                    <!-- Topper Spotlight Banner -->
+                    <div class="topper-spotlight-card" id="topperSpotlightCard">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="topper-icon-box">🏆</div>
+                            <div class="topper-info">
+                                <h4>Batch Topper Spotlight: <span id="topperNameDisplay" class="text-dark">Bharvi Bhangale</span></h4>
+                                <p>Roll No: <strong id="topperRollDisplay">24IT101</strong> • Department: <strong>Information Technology</strong></p>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="topper-score-pill" id="topperPercentDisplay">95.40% (O Grade)</span>
+                        </div>
+                    </div>
+
+                    <div class="row g-4 mb-4">
+                        <!-- Student Marks Entry Form -->
+                        <div class="col-lg-5">
+                            <div class="p-4 rounded-4 bg-white border">
+                                <h4 class="mb-3 font-primary"><i data-lucide="user-plus" class="me-2 text-success"></i>Enter Student Marks</h4>
+                                <form id="studentResultForm">
+                                    <div class="mb-2">
+                                        <label class="form-label small mb-1">Student Name</label>
+                                        <input type="text" id="resStudentName" class="form-control" placeholder="e.g. Aarav Sharma" required>
+                                    </div>
+                                    <div class="row g-2 mb-2">
+                                        <div class="col-6">
+                                            <label class="form-label small mb-1">Roll Number</label>
+                                            <input type="text" id="resRollNo" class="form-control" placeholder="e.g. 24IT105" required>
+                                        </div>
+                                        <div class="col-6">
+                                            <label class="form-label small mb-1">Branch</label>
+                                            <input type="text" id="resBranch" class="form-control" value="IT" required>
+                                        </div>
+                                    </div>
+
+                                    <hr class="my-3">
+                                    <div class="small fw-bold text-muted mb-2">Subject Marks (Out of 100)</div>
+
+                                    <div class="row g-2 mb-2">
+                                        <div class="col-6">
+                                            <label class="form-label small mb-0">Web Tech</label>
+                                            <input type="number" id="resM1" class="form-control form-control-sm" min="0" max="100" placeholder="0-100" required>
+                                        </div>
+                                        <div class="col-6">
+                                            <label class="form-label small mb-0">DBMS</label>
+                                            <input type="number" id="resM2" class="form-control form-control-sm" min="0" max="100" placeholder="0-100" required>
+                                        </div>
+                                        <div class="col-6">
+                                            <label class="form-label small mb-0">Operating Sys</label>
+                                            <input type="number" id="resM3" class="form-control form-control-sm" min="0" max="100" placeholder="0-100" required>
+                                        </div>
+                                        <div class="col-6">
+                                            <label class="form-label small mb-0">Networks</label>
+                                            <input type="number" id="resM4" class="form-control form-control-sm" min="0" max="100" placeholder="0-100" required>
+                                        </div>
+                                        <div class="col-12">
+                                            <label class="form-label small mb-0">Software Eng</label>
+                                            <input type="number" id="resM5" class="form-control form-control-sm" min="0" max="100" placeholder="0-100" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex gap-2 mt-3">
+                                        <button type="submit" class="btn btn-primary flex-grow-1">Calculate & Add</button>
+                                        <button type="button" id="btnResetResultDemo" class="btn btn-secondary">Load Demo</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Dynamic Result Roster Table -->
+                        <div class="col-lg-7">
+                            <div class="p-4 rounded-4 bg-white border h-100 d-flex flex-column">
+                                <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                                    <h4 class="m-0 font-primary"><i data-lucide="award" class="me-2 text-success"></i>Dynamic Result Roster</h4>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <input type="text" id="searchResultInput" class="form-control form-control-sm" placeholder="Filter by Name/Roll..." style="width: 170px;">
+                                        <button class="btn btn-sm btn-outline-danger" id="btnClearAllResults" title="Clear All Records"><i data-lucide="trash-2"></i></button>
+                                    </div>
+                                </div>
+
+                                <div class="table-responsive flex-grow-1">
+                                    <table class="table table-hover align-middle small mb-0" id="resultTable">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Roll No</th>
+                                                <th>Name</th>
+                                                <th>Total / 500</th>
+                                                <th>Percentage</th>
+                                                <th>Grade</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="resultTableBody">
+                                            <!-- Dynamically populated by main.js -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==========================================================================
+                 TAB 4: ASSIGNMENT 4 — EMPLOYEE REGISTRATION FORM WITH VALIDATION
+                 ========================================================================== -->
+            <div class="assignment-pane" id="tab-assign4">
+                <div class="assignment-card">
+                    <span class="assignment-header-badge">Assignment 4 • Form Validation</span>
+                    <h2 class="assignment-title">Responsive Employee Registration Form</h2>
+                    <p class="assignment-desc">
+                        Develop a responsive employee registration form using HTML, CSS, and JavaScript with comprehensive regex and rule validation for Name, Email, Password, Phone Number, and Department.
+                    </p>
+
+                    <div class="row g-4">
+                        <div class="col-lg-7">
+                            <div class="p-4 rounded-4 bg-white border">
+                                <h4 class="mb-3 font-primary"><i data-lucide="user-check" class="me-2 text-success"></i>Employee Registration</h4>
+                                <form id="employeeRegForm" novalidate>
+                                    <div class="mb-3">
+                                        <label class="form-label">Full Name</label>
+                                        <input type="text" id="empName" class="form-control" placeholder="Letters only (min 3 chars)" required>
+                                        <div class="custom-feedback" id="empNameFeedback"></div>
+                                    </div>
+
+                                    <div class="row g-3 mb-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label">Work Email</label>
+                                            <input type="email" id="empEmail" class="form-control" placeholder="employee@company.com" required>
+                                            <div class="custom-feedback" id="empEmailFeedback"></div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Phone Number (10 Digits)</label>
+                                            <input type="tel" id="empPhone" class="form-control" placeholder="e.g. 9876543210" maxlength="10" required>
+                                            <div class="custom-feedback" id="empPhoneFeedback"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row g-3 mb-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label">Password</label>
+                                            <input type="password" id="empPassword" class="form-control" placeholder="Min 8 chars, 1 Upper, 1 Digit, 1 Special" required>
+                                            <div class="password-strength-container">
+                                                <div class="password-strength-bar" id="pwdStrengthBar"></div>
+                                            </div>
+                                            <div class="custom-feedback" id="empPasswordFeedback"></div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Confirm Password</label>
+                                            <input type="password" id="empConfirmPassword" class="form-control" placeholder="Re-type password" required>
+                                            <div class="custom-feedback" id="empConfirmPasswordFeedback"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row g-3 mb-4">
+                                        <div class="col-md-6">
+                                            <label class="form-label">Department</label>
+                                            <select id="empDept" class="form-select form-control" required>
+                                                <option value="">Select Department...</option>
+                                                <option value="Information Technology">Information Technology</option>
+                                                <option value="Human Resources">Human Resources</option>
+                                                <option value="Digital Marketing">Digital Marketing</option>
+                                                <option value="Software Engineering">Software Engineering</option>
+                                                <option value="Operations & Logistics">Operations & Logistics</option>
+                                            </select>
+                                            <div class="custom-feedback" id="empDeptFeedback"></div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Date of Joining</label>
+                                            <input type="date" id="empJoinDate" class="form-control" required>
+                                            <div class="custom-feedback" id="empJoinDateFeedback"></div>
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary w-100 py-3">Validate & Register Employee</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Registered Employees Live Directory -->
+                        <div class="col-lg-5">
+                            <div class="p-4 rounded-4 bg-white border h-100">
+                                <h4 class="mb-3 font-primary"><i data-lucide="users" class="me-2 text-success"></i>Registered Employees Directory</h4>
+                                <div id="employeeListContainer" class="d-flex flex-column gap-3">
+                                    <div class="p-3 rounded-3 bg-light border">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <strong>Bharvi Bhangale</strong>
+                                            <span class="badge bg-success-subtle text-success">IT Specialist</span>
+                                        </div>
+                                        <div class="small text-muted mt-1">bharvi@company.com • +91 9823145678</div>
+                                        <div class="small text-secondary mt-1">Joined: 15-Aug-2025</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==========================================================================
+                 TAB 5: ASSIGNMENT 5 — GIT & GITHUB REPOSITORY WORKFLOW
+                 ========================================================================== -->
+            <div class="assignment-pane" id="tab-assign5">
+                <div class="assignment-card">
+                    <span class="assignment-header-badge">Assignment 5 • Version Control & Collaboration</span>
+                    <h2 class="assignment-title">Local Git Repository & GitHub Workflow</h2>
+                    <p class="assignment-desc">
+                        Create a local Git repository, connect it to a remote GitHub repository, stage changes, commit versions, and push files using Git CLI commands.
+                    </p>
+
+                    <!-- Interactive Terminal Simulation -->
+                    <div class="terminal-window">
+                        <div class="terminal-header">
+                            <div class="terminal-dots">
+                                <div class="terminal-dot dot-red"></div>
+                                <div class="terminal-dot dot-yellow"></div>
+                                <div class="terminal-dot dot-green"></div>
+                            </div>
+                            <div class="terminal-title">bash - bharvi@portfolio: ~/bharvi-portfolio</div>
+                            <span class="badge bg-dark text-muted">Git v2.43</span>
+                        </div>
+                        <div class="terminal-body" id="gitTerminalLog">
+                            <div class="terminal-comment"># 1. Initialize a new local Git repository</div>
+                            <div><span class="terminal-prompt">$</span> git init</div>
+                            <div class="terminal-success">Initialized empty Git repository in C:/.../bharvi-portfolio/.git/</div>
+
+                            <div class="terminal-comment mt-2"># 2. Check untracked files</div>
+                            <div><span class="terminal-prompt">$</span> git status</div>
+                            <div>On branch master<br>Untracked files: .gitignore, assets/, index.html, story.html, ncc.html, vision.html, assignments.html, main.js, style.css</div>
+
+                            <div class="terminal-comment mt-2"># 3. Stage all files into staging area</div>
+                            <div><span class="terminal-prompt">$</span> git add .</div>
+
+                            <div class="terminal-comment mt-2"># 4. Commit files with an informative message</div>
+                            <div><span class="terminal-prompt">$</span> git commit -m "feat: complete web technology practical assignments 1 to 9"</div>
+                            <div class="terminal-success">[main (root-commit) 7a8f9c1] feat: complete web technology practical assignments 1 to 9<br> 12 files changed, 2850 insertions(+)</div>
+
+                            <div class="terminal-comment mt-2"># 5. Rename primary branch to main</div>
+                            <div><span class="terminal-prompt">$</span> git branch -M main</div>
+
+                            <div class="terminal-comment mt-2"># 6. Link local repository to remote GitHub repository</div>
+                            <div><span class="terminal-prompt">$</span> git remote add origin https://github.com/bharvi-bhangale/portfolio-assignments.git</div>
+
+                            <div class="terminal-comment mt-2"># 7. Push local commits to remote repository</div>
+                            <div><span class="terminal-prompt">$</span> git push -u origin main</div>
+                            <div class="terminal-success">Enumerating objects: 15, done.<br>Counting objects: 100% (15/15), done.<br>To https://github.com/bharvi-bhangale/portfolio-assignments.git<br> * [new branch] main -> main<br>Branch 'main' set up to track remote branch 'main' from 'origin'.</div>
+                        </div>
+                    </div>
+
+                    <div class="row g-4 mt-2">
+                        <div class="col-md-4">
+                            <div class="p-3 rounded-4 bg-white border text-center">
+                                <i data-lucide="git-branch" class="text-success mb-2" style="width: 32px; height: 32px;"></i>
+                                <h5>1. Local Repo Init</h5>
+                                <p class="small text-muted mb-0"><code>git init</code> establishes the local version tracking database.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 rounded-4 bg-white border text-center">
+                                <i data-lucide="git-commit" class="text-primary mb-2" style="width: 32px; height: 32px;"></i>
+                                <h5>2. Staging & Commits</h5>
+                                <p class="small text-muted mb-0"><code>git add .</code> & <code>git commit -m</code> save incremental checkpoints.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 rounded-4 bg-white border text-center">
+                                <i data-lucide="upload-cloud" class="text-warning mb-2" style="width: 32px; height: 32px;"></i>
+                                <h5>3. Remote GitHub Push</h5>
+                                <p class="small text-muted mb-0"><code>git remote add</code> & <code>git push</code> publish code to cloud repository.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==========================================================================
+                 TAB 6: ASSIGNMENT 6 — REACT STUDENT INFORMATION APPLICATION
+                 ========================================================================== -->
+            <div class="assignment-pane" id="tab-assign6">
+                <div class="assignment-card">
+                    <span class="assignment-header-badge">Assignment 6 • Component Architecture</span>
+                    <h2 class="assignment-title">React Student Information Application</h2>
+                    <p class="assignment-desc">
+                        Develop a simple Student Information Application using React with modular components: <code class="text-primary">&lt;StudentForm /&gt;</code> to accept student details (Name, Roll No, Department, Marks) and <code class="text-success">&lt;StudentDetails /&gt;</code> to display the submitted information in a formatted component layout.
+                    </p>
+
+                    <!-- React Root Mount Point -->
+                    <div id="reactStudentAppRoot">
+                        <div class="text-center py-5">
+                            <div class="spinner-border text-success" role="status"></div>
+                            <p class="mt-2 text-muted">Mounting React 18 Components...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==========================================================================
+                 TAB 7: ASSIGNMENT 7 — REACT PERSONAL EXPENSE TRACKER & ANALYZER
+                 ========================================================================== -->
+            <div class="assignment-pane" id="tab-assign7">
+                <div class="assignment-card">
+                    <span class="assignment-header-badge">Assignment 7 • State Management & Data Visualization</span>
+                    <h2 class="assignment-title">React Personal Expense Tracker & Analyzer</h2>
+                    <p class="assignment-desc">
+                        Create a React application to record and analyze personal expenses with dynamic category summaries, monthly budget tracking, and real-time expense metrics.
+                    </p>
+
+                    <!-- React Expense App Mount Point -->
+                    <div id="reactExpenseAppRoot">
+                        <div class="text-center py-5">
+                            <div class="spinner-border text-success" role="status"></div>
+                            <p class="mt-2 text-muted">Mounting React Expense Tracker Component...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==========================================================================
+                 TAB 8: ASSIGNMENT 8 — NODE.JS, EXPRESS & MONGODB REST API (WITH POSTMAN)
+                 ========================================================================== -->
+            <div class="assignment-pane" id="tab-assign8">
+                <div class="assignment-card">
+                    <span class="assignment-header-badge">Assignment 8 • Backend Architecture & API Testing</span>
+                    <h2 class="assignment-title">Student Records REST API (Node.js, Express & MongoDB)</h2>
+                    <p class="assignment-desc">
+                        Develop a basic REST API using Node.js, Express.js, and MongoDB to manage student records. Implement Create, Read, Update, and Delete (CRUD) operations and test all API endpoints using Postman.
+                    </p>
+
+                    <div class="d-flex gap-3 flex-wrap mb-4">
+                        <a href="./backend/Student_Records_API.postman_collection.json" download class="btn btn-primary d-inline-flex align-items-center gap-2">
+                            <i data-lucide="download"></i>
+                            <span>Download Postman Collection (.json)</span>
+                        </a>
+                        <span class="badge bg-secondary-subtle text-dark align-self-center p-2 px-3 rounded-pill">Backend Codebase: <code>backend/server.js</code></span>
+                    </div>
+
+                    <!-- Built-in In-Browser Postman API Console -->
+                    <div class="api-tester-card">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="m-0 text-white font-primary"><i data-lucide="terminal" class="me-2 text-success"></i>Interactive In-Browser REST API Explorer</h5>
+                            <span class="badge bg-dark border border-secondary text-light">Simulated Live Server</span>
+                        </div>
+
+                        <!-- URL & Method Bar -->
+                        <div class="api-url-bar">
+                            <select id="apiMethodSelect" class="api-method-select">
+                                <option value="GET">GET</option>
+                                <option value="POST">POST</option>
+                                <option value="PUT">PUT</option>
+                                <option value="DELETE">DELETE</option>
+                            </select>
+                            <input type="text" id="apiUrlInput" class="api-url-input" value="/api/students">
+                            <button id="btnSendApiRequest" class="api-send-btn d-inline-flex align-items-center gap-2">
+                                <i data-lucide="play" style="width: 16px; height: 16px;"></i>
+                                <span>Send Request</span>
+                            </button>
+                        </div>
+
+                        <!-- Request Payload Area (Shown for POST / PUT) -->
+                        <div id="apiPayloadContainer" style="display: none;" class="mb-3">
+                            <label class="small text-muted mb-1">Request Body (JSON):</label>
+                            <textarea id="apiPayloadEditor" class="w-100 api-payload-editor" rows="6">{
+  "rollNumber": "24IT108",
+  "name": "Kavya Patel",
+  "email": "kavya@kbtcoe.edu.in",
+  "department": "Information Technology",
+  "marks": {
+    "webTech": 90,
+    "dbms": 85,
+    "operatingSystems": 88,
+    "computerNetworks": 82,
+    "softwareEng": 89
+  }
+}</textarea>
+                        </div>
+
+                        <!-- Response Window -->
+                        <div>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="small text-muted">Response Body:</span>
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="status-badge status-200" id="apiResponseStatus">Status: 200 OK</span>
+                                    <span class="small text-muted" id="apiResponseTime">Time: 18ms</span>
+                                </div>
+                            </div>
+                            <pre class="api-response-window mb-0" id="apiResponseWindow">// Click "Send Request" above to execute endpoint query...</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==========================================================================
+                 TAB 9: ASSIGNMENT 9 — MINI PROJECT (EXPRESS CRUD REST API - GFG)
+                 ========================================================================== -->
+            <div class="assignment-pane" id="tab-assign9">
+                <div class="assignment-card">
+                    <span class="assignment-header-badge">Assignment 9 • Capstone Mini Project</span>
+                    <h2 class="assignment-title">Mini Project: REST API Using Express CRUD</h2>
+                    <p class="assignment-desc">
+                        Full-stack implementation based on the <a href="https://www.geeksforgeeks.org/node-js/rest-api-using-the-express-to-perform-crud-create-read-update-delete/" target="_blank" class="text-success text-decoration-underline">GeeksforGeeks Express CRUD Tutorial</a>. Includes full Course / Curriculum Management API with modular routing, input validation middleware, error handling, and live client testing.
+                    </p>
+
+                    <!-- Mini Project Interactive Client -->
+                    <div class="row g-4 mb-4">
+                        <div class="col-lg-4">
+                            <div class="p-4 rounded-4 bg-white border">
+                                <h4 class="mb-3 font-primary"><i data-lucide="plus-circle" class="me-2 text-success"></i>Add New Course</h4>
+                                <form id="miniProjectAddCourseForm">
+                                    <div class="mb-2">
+                                        <label class="form-label small mb-1">Course Code</label>
+                                        <input type="text" id="miniCourseCode" class="form-control form-control-sm" placeholder="e.g. IT306" required>
+                                    </div>
+                                    <div class="mb-2">
+                                        <label class="form-label small mb-1">Course Title</label>
+                                        <input type="text" id="miniCourseTitle" class="form-control form-control-sm" placeholder="e.g. Cloud Computing & DevOps" required>
+                                    </div>
+                                    <div class="row g-2 mb-2">
+                                        <div class="col-6">
+                                            <label class="form-label small mb-1">Credits</label>
+                                            <input type="number" id="miniCourseCredits" class="form-control form-control-sm" value="3" min="1" max="6" required>
+                                        </div>
+                                        <div class="col-6">
+                                            <label class="form-label small mb-1">Enrolled</label>
+                                            <input type="number" id="miniCourseEnrolled" class="form-control form-control-sm" value="60" min="0" required>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label small mb-1">Lead Instructor</label>
+                                        <input type="text" id="miniCourseInstructor" class="form-control form-control-sm" placeholder="e.g. Dr. K. Deshmukh" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary w-100 py-2">Create Course (POST)</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-8">
+                            <div class="p-4 rounded-4 bg-white border h-100">
+                                <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                                    <h4 class="m-0 font-primary"><i data-lucide="book-open" class="me-2 text-success"></i>Curriculum Database (GET /api/courses)</h4>
+                                    <span class="badge bg-secondary-subtle text-dark" id="miniCourseCountBadge">4 Courses Active</span>
+                                </div>
+                                <div class="row g-3" id="miniCourseGridContainer">
+                                    <!-- Populated dynamically via JS -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- GeeksforGeeks Architecture Breakdown -->
+                    <div class="p-4 rounded-4" style="background-color: var(--bg-secondary); border: 1px solid var(--border-color);">
+                        <h4 class="mb-3 font-primary"><i data-lucide="layers" class="me-2 text-success"></i>GeeksforGeeks Architecture Highlights</h4>
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <div class="p-3 bg-white rounded-3 border">
+                                    <strong class="text-primary">1. Express Routing</strong>
+                                    <p class="small text-muted mb-0 mt-1">RESTful endpoints with parameterized routes (<code>/api/courses/:id</code>).</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="p-3 bg-white rounded-3 border">
+                                    <strong class="text-success">2. JSON Parser</strong>
+                                    <p class="small text-muted mb-0 mt-1"><code>express.json()</code> parses incoming body payloads cleanly.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="p-3 bg-white rounded-3 border">
+                                    <strong class="text-warning">3. HTTP Codes</strong>
+                                    <p class="small text-muted mb-0 mt-1">Adheres strictly to REST standards: 200 OK, 201 Created, 400 Bad, 404 Not Found.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="p-3 bg-white rounded-3 border">
+                                    <strong class="text-danger">4. Modularity</strong>
+                                    <p class="small text-muted mb-0 mt-1">Decoupled controllers and models for testable enterprise maintenance.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p class="footer-text m-0">Made with <i data-lucide="heart" class="heart-icon"></i> by Bharvi Bhangale &copy; 2026 • IT Department, KBTCOE</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    
+    <!-- Core JS -->
+    <script src="main.js"></script>
+
+    <!-- ==========================================================================
+         INLINE REACT 18 APPLICATION SCRIPTS (ASSIGNMENTS 6 & 7)
+         ========================================================================== -->
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // ==========================================
+        // ASSIGNMENT 6: STUDENT INFORMATION APP COMPONENTS
+        // ==========================================
+
+        // Component 1: StudentForm
+        function StudentForm({ onAddStudent }) {
+            const [name, setName] = useState('');
+            const [rollNo, setRollNo] = useState('');
+            const [dept, setDept] = useState('Information Technology');
+            const [marks, setMarks] = useState('');
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                if (!name.trim() || !rollNo.trim() || !marks) return;
+                
+                onAddStudent({
+                    id: Date.now(),
+                    name: name.trim(),
+                    rollNo: rollNo.trim().toUpperCase(),
+                    department: dept,
+                    marks: Number(marks)
+                });
+
+                setName('');
+                setRollNo('');
+                setMarks('');
+            };
+
+            return (
+                <div className="react-component-wrapper">
+                    <span className="component-tag">&lt;StudentForm /&gt; Component</span>
+                    <h5 className="font-primary mb-3">Add Student Record</h5>
+                    <form onSubmit={handleSubmit}>
+                        <div className="mb-2">
+                            <label className="form-label small mb-1">Student Name</label>
+                            <input 
+                                type="text" 
+                                className="form-control form-control-sm" 
+                                value={name} 
+                                onChange={(e) => setName(e.target.value)} 
+                                placeholder="e.g. Diya Sharma" 
+                                required 
+                            />
+                        </div>
+                        <div className="row g-2 mb-2">
+                            <div className="col-6">
+                                <label className="form-label small mb-1">Roll Number</label>
+                                <input 
+                                    type="text" 
+                                    className="form-control form-control-sm" 
+                                    value={rollNo} 
+                                    onChange={(e) => setRollNo(e.target.value)} 
+                                    placeholder="e.g. 24IT112" 
+                                    required 
+                                />
+                            </div>
+                            <div className="col-6">
+                                <label className="form-label small mb-1">Total Marks (%)</label>
+                                <input 
+                                    type="number" 
+                                    className="form-control form-control-sm" 
+                                    value={marks} 
+                                    onChange={(e) => setMarks(e.target.value)} 
+                                    min="0" 
+                                    max="100" 
+                                    placeholder="0-100" 
+                                    required 
+                                />
+                            </div>
+                        </div>
+                        <div className="mb-3">
+                            <label className="form-label small mb-1">Department</label>
+                            <select 
+                                className="form-select form-control form-control-sm"
+                                value={dept}
+                                onChange={(e) => setDept(e.target.value)}
+                            >
+                                <option>Information Technology</option>
+                                <option>Computer Engineering</option>
+                                <option>Artificial Intelligence & Data Science</option>
+                                <option>Electronics & Telecommunication</option>
+                            </select>
+                        </div>
+                        <button type="submit" className="btn btn-primary w-100 py-2">
+                            Submit via React State
+                        </button>
+                    </form>
+                </div>
+            );
+        }
+
+        // Component 2: StudentDetails
+        function StudentDetails({ students, onDeleteStudent }) {
+            return (
+                <div className="react-component-wrapper h-100">
+                    <span className="component-tag">&lt;StudentDetails /&gt; Component</span>
+                    <div className="d-flex justify-content-between align-items-center mb-2">
+                        <h5 className="font-primary m-0">Submitted Student Cards</h5>
+                        <span className="badge bg-secondary-subtle text-dark">{students.length} Registered</span>
+                    </div>
+
+                    {students.length === 0 ? (
+                        <div className="text-center py-4 text-muted small">No students registered yet. Fill the form to add cards.</div>
+                    ) : (
+                        <div className="student-card-grid">
+                            {students.map((student) => (
+                                <div key={student.id} className="student-card-item">
+                                    <div className="d-flex justify-content-between align-items-start mb-2">
+                                        <h6 className="m-0 fw-bold">{student.name}</h6>
+                                        <span className={`badge ${student.marks >= 75 ? 'bg-success' : student.marks >= 50 ? 'bg-primary' : 'bg-danger'}`}>
+                                            {student.marks}%
+                                        </span>
+                                    </div>
+                                    <div className="small text-muted mb-1">Roll No: <strong>{student.rollNo}</strong></div>
+                                    <div className="small text-secondary mb-3">{student.department}</div>
+                                    <button 
+                                        onClick={() => onDeleteStudent(student.id)} 
+                                        className="btn btn-sm btn-outline-danger w-100 py-1"
+                                    >
+                                        Delete Record
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        // Root App for Assignment 6
+        function StudentApp() {
+            const [students, setStudents] = useState([
+                { id: 1, name: 'Bharvi Bhangale', rollNo: '24IT101', department: 'Information Technology', marks: 95 },
+                { id: 2, name: 'Aditya Deshmukh', rollNo: '24IT102', department: 'Information Technology', marks: 88 },
+                { id: 3, name: 'Sneha Patil', rollNo: '24IT103', department: 'Computer Engineering', marks: 82 }
+            ]);
+
+            const handleAddStudent = (newStudent) => {
+                setStudents([newStudent, ...students]);
+            };
+
+            const handleDeleteStudent = (id) => {
+                setStudents(students.filter(s => s.id !== id));
+            };
+
+            return (
+                <div className="row g-4">
+                    <div className="col-lg-5">
+                        <StudentForm onAddStudent={handleAddStudent} />
+                    </div>
+                    <div className="col-lg-7">
+                        <StudentDetails students={students} onDeleteStudent={handleDeleteStudent} />
+                    </div>
+                </div>
+            );
+        }
+
+        // Render Assignment 6
+        const reactStudentRoot = ReactDOM.createRoot(document.getElementById('reactStudentAppRoot'));
+        reactStudentRoot.render(<StudentApp />);
+
+        // ==========================================
+        // ASSIGNMENT 7: PERSONAL EXPENSE TRACKER & ANALYZER (REACT)
+        // ==========================================
+        function ExpenseApp() {
+            const [expenses, setExpenses] = useState([
+                { id: 1, title: 'College Textbooks & Reference Notes', amount: 850, category: 'Academics', date: '2026-08-01' },
+                { id: 2, title: 'NCC Parade Uniform Prep & Polish', amount: 350, category: 'NCC', date: '2026-08-03' },
+                { id: 3, title: 'Hostel Mess & Fruit Juices', amount: 620, category: 'Food', date: '2026-08-05' },
+                { id: 4, title: 'Bus Pass Monthly Renewal', amount: 400, category: 'Travel', date: '2026-08-06' },
+                { id: 5, title: 'Cloud Server / Web Hosting Plan', amount: 550, category: 'Tech', date: '2026-08-10' }
+            ]);
+
+            const [title, setTitle] = useState('');
+            const [amount, setAmount] = useState('');
+            const [category, setCategory] = useState('Academics');
+            const [date, setDate] = useState('2026-08-15');
+            const [filterCategory, setFilterCategory] = useState('All');
+
+            const monthlyBudget = 6000;
+
+            const handleAddExpense = (e) => {
+                e.preventDefault();
+                if (!title.trim() || !amount) return;
+
+                const newExpense = {
+                    id: Date.now(),
+                    title: title.trim(),
+                    amount: parseFloat(amount),
+                    category,
+                    date
+                };
+
+                setExpenses([newExpense, ...expenses]);
+                setTitle('');
+                setAmount('');
+            };
+
+            const handleDeleteExpense = (id) => {
+                setExpenses(expenses.filter(item => item.id !== id));
+            };
+
+            // Calculations
+            const totalSpent = expenses.reduce((sum, item) => sum + item.amount, 0);
+            const remainingBudget = Math.max(0, monthlyBudget - totalSpent);
+            const budgetPercent = Math.min(100, Math.round((totalSpent / monthlyBudget) * 100));
+
+            // Categories breakdown
+            const categories = ['Academics', 'Food', 'Travel', 'NCC', 'Tech', 'Others'];
+            const categoryTotals = categories.map(cat => {
+                const total = expenses.filter(e => e.category === cat).reduce((sum, e) => sum + e.amount, 0);
+                return { category: cat, total, percentage: totalSpent > 0 ? Math.round((total / totalSpent) * 100) : 0 };
+            });
+
+            const filteredExpenses = filterCategory === 'All' 
+                ? expenses 
+                : expenses.filter(e => e.category === filterCategory);
+
+            return (
+                <div>
+                    {/* Top Stat Cards */}
+                    <div className="row g-3 mb-4">
+                        <div className="col-md-4">
+                            <div className="expense-stat-card">
+                                <div className="stat-icon">₹</div>
+                                <div className="stat-content">
+                                    <h5>Total Expenditures</h5>
+                                    <h3>₹{totalSpent.toLocaleString()}</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-md-4">
+                            <div className="expense-stat-card">
+                                <div className="stat-icon">🎯</div>
+                                <div className="stat-content">
+                                    <h5>Monthly Budget Remaining</h5>
+                                    <h3 className="text-success">₹{remainingBudget.toLocaleString()}</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-md-4">
+                            <div className="expense-stat-card">
+                                <div className="stat-icon">📊</div>
+                                <div className="stat-content">
+                                    <h5>Budget Utilized</h5>
+                                    <h3 className={budgetPercent > 80 ? 'text-danger' : 'text-primary'}>{budgetPercent}%</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="row g-4">
+                        {/* Add Expense Form */}
+                        <div className="col-lg-5">
+                            <div className="p-4 rounded-4 bg-white border">
+                                <h4 className="mb-3 font-primary">Log New Expense</h4>
+                                <form onSubmit={handleAddExpense}>
+                                    <div className="mb-2">
+                                        <label className="form-label small mb-1">Expense Title</label>
+                                        <input 
+                                            type="text" 
+                                            className="form-control form-control-sm" 
+                                            value={title} 
+                                            onChange={(e) => setTitle(e.target.value)} 
+                                            placeholder="e.g. Lab Kit / Stationery" 
+                                            required 
+                                        />
+                                    </div>
+                                    <div className="row g-2 mb-2">
+                                        <div className="col-6">
+                                            <label className="form-label small mb-1">Amount (₹)</label>
+                                            <input 
+                                                type="number" 
+                                                className="form-control form-control-sm" 
+                                                value={amount} 
+                                                onChange={(e) => setAmount(e.target.value)} 
+                                                min="1" 
+                                                placeholder="Amount" 
+                                                required 
+                                            />
+                                        </div>
+                                        <div className="col-6">
+                                            <label className="form-label small mb-1">Date</label>
+                                            <input 
+                                                type="date" 
+                                                className="form-control form-control-sm" 
+                                                value={date} 
+                                                onChange={(e) => setDate(e.target.value)} 
+                                                required 
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="mb-3">
+                                        <label className="form-label small mb-1">Expense Category</label>
+                                        <select 
+                                            className="form-select form-control form-control-sm"
+                                            value={category}
+                                            onChange={(e) => setCategory(e.target.value)}
+                                        >
+                                            <option>Academics</option>
+                                            <option>Food</option>
+                                            <option>Travel</option>
+                                            <option>NCC</option>
+                                            <option>Tech</option>
+                                            <option>Others</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" className="btn btn-primary w-100 py-2">Add Expense</button>
+                                </form>
+
+                                {/* Category Breakdown Visual Progress Bars */}
+                                <div className="mt-4 pt-3 border-top">
+                                    <h6 className="fw-bold mb-3 font-primary">Category Spending Analytics</h6>
+                                    {categoryTotals.map(cat => (
+                                        <div key={cat.category} className="progress-category-item">
+                                            <div className="progress-header">
+                                                <span>{cat.category}</span>
+                                                <span className="text-muted">₹{cat.total} ({cat.percentage}%)</span>
+                                            </div>
+                                            <div className="progress-bar-container">
+                                                <div 
+                                                    className="progress-fill" 
+                                                    style={{ 
+                                                        width: `${cat.percentage}%`, 
+                                                        backgroundColor: cat.category === 'Academics' ? '#6E8B74' : cat.category === 'Food' ? '#D8C3A5' : cat.category === 'NCC' ? '#2e7d32' : '#4a6572' 
+                                                    }}
+                                                ></div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Expense Log List */}
+                        <div className="col-lg-7">
+                            <div className="p-4 rounded-4 bg-white border h-100 d-flex flex-column">
+                                <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                                    <h4 className="m-0 font-primary">Transactions Ledger</h4>
+                                    <select 
+                                        className="form-select form-control form-control-sm" 
+                                        style={{ width: '150px' }}
+                                        value={filterCategory}
+                                        onChange={(e) => setFilterCategory(e.target.value)}
+                                    >
+                                        <option value="All">All Categories</option>
+                                        <option value="Academics">Academics</option>
+                                        <option value="Food">Food</option>
+                                        <option value="Travel">Travel</option>
+                                        <option value="NCC">NCC</option>
+                                        <option value="Tech">Tech</option>
+                                    </select>
+                                </div>
+
+                                <div className="table-responsive flex-grow-1">
+                                    <table className="table table-hover align-middle small mb-0">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Title</th>
+                                                <th>Category</th>
+                                                <th>Date</th>
+                                                <th>Amount</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {filteredExpenses.map(item => (
+                                                <tr key={item.id}>
+                                                    <td><strong>{item.title}</strong></td>
+                                                    <td><span className="badge bg-secondary-subtle text-dark">{item.category}</span></td>
+                                                    <td className="text-muted">{item.date}</td>
+                                                    <td className="fw-bold text-dark">₹{item.amount}</td>
+                                                    <td>
+                                                        <button 
+                                                            onClick={() => handleDeleteExpense(item.id)} 
+                                                            className="btn btn-sm btn-outline-danger py-0 px-2"
+                                                        >
+                                                            ✕
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Render Assignment 7
+        const reactExpenseRoot = ReactDOM.createRoot(document.getElementById('reactExpenseAppRoot'));
+        reactExpenseRoot.render(<ExpenseApp />);
+    </script>
+</body>
+</html>
