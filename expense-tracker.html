@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Expense Tracker & Analyzer | Assignment 7</title>
+    
+    <!-- Google Fonts & Bootstrap -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- React & Babel Standalone CDNs -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        .expense-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: var(--shadow-subtle);
+            margin-bottom: 25px;
+        }
+        .stat-card-exp {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+        }
+        .stat-card-exp .stat-val {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--highlight);
+            font-family: var(--font-heading);
+        }
+        .cat-bar-bg {
+            background: #e2e8f0;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 4px;
+        }
+        .cat-bar-fill {
+            background: var(--highlight);
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        .expense-item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(216, 195, 165, 0.3);
+        }
+        .expense-item-row:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body class="page-expense-tracker">
+    <!-- Header Navigation -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="index.html" class="logo" id="nav-logo">Bharvi<span>.</span></a>
+            <nav class="nav-links">
+                <a href="index.html" class="nav-link" id="link-hero">Home</a>
+                <a href="story.html" class="nav-link" id="link-story">My Story</a>
+                <a href="ncc.html" class="nav-link" id="link-ncc">NCC</a>
+                <a href="vision.html" class="nav-link" id="link-vision">Vision</a>
+                <a href="academics.html" class="nav-link active" id="link-academics">Academics & Labs</a>
+            </nav>
+        </div>
+    </header>
+
+    <div id="root" style="padding-top: 100px;"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+
+        const CATEGORIES = [
+            'Food & Dining',
+            'Education & Books',
+            'Transport & Fuel',
+            'Utilities & Bills',
+            'Entertainment',
+            'Health & Fitness'
+        ];
+
+        function App() {
+            const [expenses, setExpenses] = useState([
+                { id: 1, title: 'College Reference Books', amount: 850, category: 'Education & Books', date: '2026-08-10' },
+                { id: 2, title: 'Cafeteria & Lunch', amount: 320, category: 'Food & Dining', date: '2026-08-12' },
+                { id: 3, title: 'Monthly Bus Pass', amount: 600, category: 'Transport & Fuel', date: '2026-08-01' },
+                { id: 4, title: 'Internet Broadband Bill', amount: 799, category: 'Utilities & Bills', date: '2026-08-05' },
+                { id: 5, title: 'Project Stationary & Prints', amount: 240, category: 'Education & Books', date: '2026-08-14' }
+            ]);
+
+            const [title, setTitle] = useState('');
+            const [amount, setAmount] = useState('');
+            const [category, setCategory] = useState(CATEGORIES[0]);
+            const [date, setDate] = useState('2026-08-15');
+            const [filterCategory, setFilterCategory] = useState('All');
+
+            const handleAddExpense = (e) => {
+                e.preventDefault();
+                if (!title || !amount || Number(amount) <= 0) {
+                    alert('Please enter a valid title and positive amount.');
+                    return;
+                }
+                const newExp = {
+                    id: Date.now(),
+                    title,
+                    amount: Number(amount),
+                    category,
+                    date
+                };
+                setExpenses([newExp, ...expenses]);
+                setTitle('');
+                setAmount('');
+            };
+
+            const handleDelete = (id) => {
+                setExpenses(expenses.filter(x => x.id !== id));
+            };
+
+            const totalSpent = expenses.reduce((sum, item) => sum + item.amount, 0);
+            const avgExpense = expenses.length > 0 ? (totalSpent / expenses.length).toFixed(0) : 0;
+            
+            const categoryTotals = CATEGORIES.map(cat => {
+                const total = expenses.filter(e => e.category === cat).reduce((s, e) => s + e.amount, 0);
+                const percent = totalSpent > 0 ? ((total / totalSpent) * 100).toFixed(0) : 0;
+                return { category: cat, total, percent };
+            }).filter(c => c.total > 0).sort((a, b) => b.total - a.total);
+
+            const highestCategory = categoryTotals.length > 0 ? categoryTotals[0].category : 'None';
+
+            const filteredExpenses = filterCategory === 'All' 
+                ? expenses 
+                : expenses.filter(e => e.category === filterCategory);
+
+            return (
+                <div className="container py-4">
+                    
+                    <nav aria-label="breadcrumb" className="mb-4">
+                        <ol className="breadcrumb">
+                            <li className="breadcrumb-item"><a href="index.html">Home</a></li>
+                            <li className="breadcrumb-item"><a href="academics.html">Academics & Labs</a></li>
+                            <li className="breadcrumb-item active" aria-current="page">Assignment 7: Personal Expense Tracker</li>
+                        </ol>
+                    </nav>
+
+                    <div className="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+                        <div>
+                            <span className="section-subtitle">Web Technology Lab • Assignment 7</span>
+                            <h1 className="font-heading mb-1" style={{ fontSize: '2.4rem' }}>Personal Expense Tracker & Analyzer</h1>
+                            <p className="text-muted mb-0">Record and analyze personal expenditures with React component hierarchy and dynamic state analytics.</p>
+                        </div>
+                        <span className="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill">
+                            React 18 Active
+                        </span>
+                    </div>
+
+                    {/* Analytics Counters */}
+                    <div className="row g-3 mb-4">
+                        <div className="col-md-3 col-6">
+                            <div className="stat-card-exp">
+                                <span className="small text-muted text-uppercase fw-bold">Total Expenditure</span>
+                                <div className="stat-val">₹{totalSpent.toLocaleString()}</div>
+                            </div>
+                        </div>
+                        <div className="col-md-3 col-6">
+                            <div className="stat-card-exp">
+                                <span className="small text-muted text-uppercase fw-bold">Average Expense</span>
+                                <div className="stat-val">₹{avgExpense}</div>
+                            </div>
+                        </div>
+                        <div className="col-md-3 col-6">
+                            <div className="stat-card-exp">
+                                <span className="small text-muted text-uppercase fw-bold">Total Logged Items</span>
+                                <div className="stat-val">{expenses.length}</div>
+                            </div>
+                        </div>
+                        <div className="col-md-3 col-6">
+                            <div className="stat-card-exp">
+                                <span className="small text-muted text-uppercase fw-bold">Top Spending Area</span>
+                                <div className="stat-val" style={{ fontSize: '1.25rem', marginTop: '6px' }}>{highestCategory}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="row g-4">
+                        
+                        {/* Form */}
+                        <div className="col-lg-5">
+                            <div className="expense-card">
+                                <h4 className="font-heading mb-3">Add New Expense</h4>
+                                <form onSubmit={handleAddExpense}>
+                                    <div className="mb-3">
+                                        <label className="form-label small fw-bold">Item Description *</label>
+                                        <input 
+                                            type="text" 
+                                            className="form-control"
+                                            placeholder="e.g. Reference Books, Bus Pass, Coffee..."
+                                            value={title} 
+                                            onChange={(e) => setTitle(e.target.value)} 
+                                            required 
+                                        />
+                                    </div>
+                                    <div className="mb-3">
+                                        <label className="form-label small fw-bold">Amount (₹) *</label>
+                                        <input 
+                                            type="number" 
+                                            className="form-control"
+                                            placeholder="450" 
+                                            min="1" 
+                                            value={amount} 
+                                            onChange={(e) => setAmount(e.target.value)} 
+                                            required 
+                                        />
+                                    </div>
+                                    <div className="mb-3">
+                                        <label className="form-label small fw-bold">Category *</label>
+                                        <select className="form-select form-control" value={category} onChange={(e) => setCategory(e.target.value)}>
+                                            {CATEGORIES.map(cat => (
+                                                <option key={cat} value={cat}>{cat}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <div className="mb-4">
+                                        <label className="form-label small fw-bold">Date *</label>
+                                        <input 
+                                            type="date" 
+                                            className="form-control"
+                                            value={date} 
+                                            onChange={(e) => setDate(e.target.value)} 
+                                            required 
+                                        />
+                                    </div>
+                                    <button type="submit" className="btn btn-primary w-100">+ Add Expense</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        {/* Analysis & Ledger */}
+                        <div className="col-lg-7">
+                            
+                            {/* Visual Category Breakdown */}
+                            <div className="expense-card mb-4">
+                                <h4 className="font-heading mb-3">Category-wise Expenditure Breakdown</h4>
+                                {categoryTotals.length === 0 ? (
+                                    <p className="text-muted small">No expenses logged yet.</p>
+                                ) : (
+                                    categoryTotals.map(item => (
+                                        <div className="mb-3" key={item.category}>
+                                            <div className="d-flex justify-content-between small fw-bold mb-1">
+                                                <span>{item.category}</span>
+                                                <span className="text-forest">₹{item.total.toLocaleString()} ({item.percent}%)</span>
+                                            </div>
+                                            <div className="cat-bar-bg">
+                                                <div className="cat-bar-fill" style={{ width: `${item.percent}%` }}></div>
+                                            </div>
+                                        </div>
+                                    ))
+                                )}
+                            </div>
+
+                            {/* Ledger */}
+                            <div className="expense-card">
+                                <div className="d-flex justify-content-between align-items-center mb-3">
+                                    <h4 className="font-heading m-0">Recent Expense Entries</h4>
+                                    <select 
+                                        className="form-select form-select-sm"
+                                        style={{ width: '180px' }}
+                                        value={filterCategory} 
+                                        onChange={(e) => setFilterCategory(e.target.value)}
+                                    >
+                                        <option value="All">All Categories</option>
+                                        {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+                                    </select>
+                                </div>
+
+                                {filteredExpenses.length === 0 ? (
+                                    <p className="text-muted text-center py-4">No expenses found for this category.</p>
+                                ) : (
+                                    filteredExpenses.map(item => (
+                                        <div className="expense-item-row" key={item.id}>
+                                            <div>
+                                                <strong>{item.title}</strong>
+                                                <div className="small text-muted">{item.category} • {item.date}</div>
+                                            </div>
+                                            <div className="d-flex align-items-center gap-3">
+                                                <span className="fw-bold text-danger">-₹{item.amount.toLocaleString()}</span>
+                                                <button 
+                                                    className="btn btn-outline-danger btn-sm p-1 rounded-circle"
+                                                    onClick={() => handleDelete(item.id)}
+                                                    title="Delete Record"
+                                                >✕</button>
+                                            </div>
+                                        </div>
+                                    ))
+                                )}
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>

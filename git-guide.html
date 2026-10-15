@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git & GitHub Practical Guide | Assignment 5</title>
+    
+    <!-- Google Fonts & Bootstrap -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        .guide-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            padding: 28px;
+            box-shadow: var(--shadow-subtle);
+            margin-bottom: 24px;
+        }
+        .code-snippet {
+            background: #1e1e24;
+            color: #dcdfe4;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.88rem;
+            padding: 14px 18px;
+            border-radius: 10px;
+            margin: 12px 0 18px 0;
+            overflow-x: auto;
+        }
+        .step-num {
+            display: inline-flex;
+            width: 32px;
+            height: 32px;
+            background: var(--highlight);
+            color: #ffffff;
+            font-weight: 700;
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body class="page-git-guide">
+    <!-- Header Navigation -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="index.html" class="logo" id="nav-logo">Bharvi<span>.</span></a>
+            <nav class="nav-links">
+                <a href="index.html" class="nav-link" id="link-hero">Home</a>
+                <a href="story.html" class="nav-link" id="link-story">My Story</a>
+                <a href="ncc.html" class="nav-link" id="link-ncc">NCC</a>
+                <a href="vision.html" class="nav-link" id="link-vision">Vision</a>
+                <a href="academics.html" class="nav-link active" id="link-academics">Academics & Labs</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container" style="padding-top: 110px; padding-bottom: 80px;">
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="academics.html">Academics & Labs</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Assignment 5: Git & GitHub Guide</li>
+            </ol>
+        </nav>
+
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+            <div>
+                <span class="section-subtitle">Web Technology Lab • Assignment 5</span>
+                <h1 class="font-heading mb-1" style="font-size: 2.3rem;">Git & GitHub Practical Guide</h1>
+                <p class="text-muted mb-0">Step-by-step workflow for initializing local repositories, staging, committing, and pushing code to GitHub.</p>
+            </div>
+            <span class="badge bg-secondary-subtle text-forest px-3 py-2 rounded-pill fw-semibold">
+                Version Control System
+            </span>
+        </div>
+
+        <!-- Special Push Troubleshooting Note -->
+        <div class="alert alert-warning border-0 rounded-4 shadow-sm mb-4">
+            <h6 class="fw-bold mb-1">Pushing to GitHub: Fixing 403 Permission Denied</h6>
+            <p class="small mb-2">
+                If <code>git push -u origin main</code> gives <em>"Permission to 6-BharviBhangale/Assignment-1.git denied"</em>, this happens because your Windows Credential Manager has stored a different account login.
+            </p>
+            <div class="small fw-semibold mb-1">Two Quick Solutions:</div>
+            <ol class="small mb-0 ps-3">
+                <li><strong>Using Personal Access Token (PAT):</strong> Run <code>git push https://&lt;YOUR_GITHUB_TOKEN&gt;@github.com/6-BharviBhangale/Assignment-1.git main</code></li>
+                <li><strong>Or in Windows:</strong> Open <em>Control Panel &rarr; User Accounts &rarr; Credential Manager &rarr; Windows Credentials</em>, find <code>git:https://github.com</code> and update it with Bharvi's login!</li>
+            </ol>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <!-- Step 1 -->
+                <div class="guide-card">
+                    <h5 class="font-heading mb-2"><span class="step-num">1</span> Configure Git User Identity</h5>
+                    <p class="text-muted small">Sets the committer name and email address recorded with every snapshot.</p>
+                    <div class="code-snippet">
+git config --global user.name "Bharvi Bhangale"<br>
+git config --global user.email "bharvibbhangale@gmail.com"
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="guide-card">
+                    <h5 class="font-heading mb-2"><span class="step-num">2</span> Initialize Local Repository</h5>
+                    <p class="text-muted small">Creates a hidden <code>.git/</code> directory tracking file revisions.</p>
+                    <div class="code-snippet">
+git init
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="guide-card">
+                    <h5 class="font-heading mb-2"><span class="step-num">3</span> Stage & Commit Files</h5>
+                    <p class="text-muted small">Move modified files to the staging index, then capture a permanent snapshot.</p>
+                    <div class="code-snippet">
+git add .<br>
+git commit -m "feat: complete Web Technology assignments 1 to 9"
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="guide-card">
+                    <h5 class="font-heading mb-2"><span class="step-num">4</span> Link Remote GitHub Repository & Push</h5>
+                    <p class="text-muted small">Point your local branch to your GitHub repository and upload commits.</p>
+                    <div class="code-snippet">
+git branch -M main<br>
+git remote add origin https://github.com/6-BharviBhangale/Assignment-1.git<br>
+git push -u origin main
+                    </div>
+                </div>
+
+                <!-- Viva Questions -->
+                <div class="guide-card">
+                    <h5 class="font-heading mb-3">Viva Voce Questions & Answers</h5>
+                    <div class="mb-3">
+                        <strong class="d-block text-forest">Q1: What is the difference between git pull and git fetch?</strong>
+                        <p class="text-muted small mb-0"><code>git fetch</code> downloads commits from the remote repository without altering your local files. <code>git pull</code> performs a fetch followed immediately by a merge into your active branch.</p>
+                    </div>
+                    <div class="mb-3">
+                        <strong class="d-block text-forest">Q2: Why is the .gitignore file necessary?</strong>
+                        <p class="text-muted small mb-0">It prevents sensitive keys (<code>.env</code>), heavy dependency folders (<code>node_modules</code>), and build outputs from cluttering your repository history.</p>
+                    </div>
+                    <div>
+                        <strong class="d-block text-forest">Q3: How do you resolve a Git merge conflict?</strong>
+                        <p class="text-muted small mb-0">Open the conflicted files, search for conflict markers (<code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, <code>=======</code>, <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>), manually pick desired code, remove markers, stage with <code>git add</code>, and run <code>git commit</code>.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="guide-card">
+                    <h5 class="font-heading mb-3">Git Command Cheat Sheet</h5>
+                    <table class="table table-sm small">
+                        <tbody>
+                            <tr><td><code>git status</code></td><td>Working tree status</td></tr>
+                            <tr><td><code>git log --oneline</code></td><td>Compact commit log</td></tr>
+                            <tr><td><code>git diff</code></td><td>Inspect file changes</td></tr>
+                            <tr><td><code>git branch</code></td><td>List local branches</td></tr>
+                            <tr><td><code>git checkout -b name</code></td><td>Create new branch</td></tr>
+                            <tr><td><code>git remote -v</code></td><td>List remote URLs</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="guide-card bg-secondary-subtle">
+                    <h6 class="font-heading mb-2">Repository Link</h6>
+                    <p class="small text-muted mb-2">Your GitHub repository for this assignment:</p>
+                    <a href="https://github.com/6-BharviBhangale/Assignment-1" target="_blank" class="btn btn-outline-dark btn-sm w-100">
+                        Open GitHub Repository &rarr;
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container text-center py-4">
+            <p class="mb-0 text-muted">&copy; 2026 Bharvi Bhangale &bull; Assignment 5 &bull; SPPU Web Technology Laboratory</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Information Application | Assignment 6 • React.js</title>
+    
+    <!-- Google Fonts & Bootstrap -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- React & Babel Standalone CDNs -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        .student-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            padding: 24px;
+            box-shadow: var(--shadow-subtle);
+            margin-bottom: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .student-card:hover {
+            box-shadow: 0 8px 24px rgba(74, 93, 79, 0.12);
+        }
+        .metric-pill {
+            background: rgba(248, 246, 242, 0.85);
+            border: 1px solid rgba(216, 195, 165, 0.5);
+            padding: 10px 14px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .metric-pill .lbl {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            font-weight: 600;
+            display: block;
+        }
+        .metric-pill .val {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .badge-dept {
+            background: rgba(168, 191, 160, 0.25);
+            color: var(--forest);
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 5px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(110, 139, 116, 0.3);
+        }
+        .badge-react {
+            background: #61dafb;
+            color: #20232a;
+            font-weight: 700;
+            font-size: 0.8rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body class="page-student-info">
+    <!-- Header Navigation -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="index.html" class="logo" id="nav-logo">Bharvi<span>.</span></a>
+            <nav class="nav-links">
+                <a href="index.html" class="nav-link" id="link-hero">Home</a>
+                <a href="story.html" class="nav-link" id="link-story">My Story</a>
+                <a href="ncc.html" class="nav-link" id="link-ncc">NCC</a>
+                <a href="vision.html" class="nav-link" id="link-vision">Vision</a>
+                <a href="academics.html" class="nav-link active" id="link-academics">Academics & Labs</a>
+            </nav>
+        </div>
+    </header>
+
+    <div id="root" style="padding-top: 100px;"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+
+        // Component 1: StudentForm (Handles input and state dispatch)
+        function StudentForm({ onAddStudent }) {
+            const [name, setName] = useState('');
+            const [roll, setRoll] = useState('');
+            const [dept, setDept] = useState('Information Technology');
+            const [markWT, setMarkWT] = useState('');
+            const [markDBMS, setMarkDBMS] = useState('');
+            const [markOS, setMarkOS] = useState('');
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                if (!name || !roll || markWT === '' || markDBMS === '' || markOS === '') {
+                    alert('Please enter all required student details and marks.');
+                    return;
+                }
+                const marks = [Number(markWT), Number(markDBMS), Number(markOS)];
+                if (marks.some(m => isNaN(m) || m < 0 || m > 100)) {
+                    alert('Marks must be between 0 and 100.');
+                    return;
+                }
+
+                onAddStudent({
+                    id: Date.now(),
+                    name,
+                    roll,
+                    dept,
+                    marks
+                });
+
+                // Reset form
+                setName('');
+                setRoll('');
+                setMarkWT('');
+                setMarkDBMS('');
+                setMarkOS('');
+            };
+
+            return (
+                <div className="card p-4 shadow-sm border-0 h-100" style={{ background: 'var(--card-bg)', borderRadius: '20px' }}>
+                    <div className="d-flex justify-content-between align-items-center mb-3">
+                        <h4 className="font-heading m-0">&lt;StudentForm /&gt;</h4>
+                        <span className="badge bg-secondary-subtle text-forest">Input Component</span>
+                    </div>
+                    <p className="text-muted small mb-4">Accepts student details and subject marks via controlled React state, passing data to the parent application.</p>
+                    
+                    <form onSubmit={handleSubmit}>
+                        <div className="mb-3">
+                            <label className="form-label small fw-bold">Full Name *</label>
+                            <input 
+                                type="text" 
+                                className="form-control"
+                                placeholder="e.g. Bharvi Bhangale" 
+                                value={name} 
+                                onChange={(e) => setName(e.target.value)} 
+                                required 
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label className="form-label small fw-bold">Roll Number *</label>
+                            <input 
+                                type="text" 
+                                className="form-control"
+                                placeholder="e.g. IT-2024-001" 
+                                value={roll} 
+                                onChange={(e) => setRoll(e.target.value)} 
+                                required 
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label className="form-label small fw-bold">Department *</label>
+                            <select className="form-select form-control" value={dept} onChange={(e) => setDept(e.target.value)}>
+                                <option value="Information Technology">Information Technology</option>
+                                <option value="Computer Engineering">Computer Engineering</option>
+                                <option value="AI & Data Science">AI & Data Science</option>
+                                <option value="Electronics & Telecommunication">Electronics & Telecommunication</option>
+                            </select>
+                        </div>
+                        <div className="mb-3">
+                            <label className="form-label small fw-bold">Marks (Max 100 per subject) *</label>
+                            <div className="row g-2 mb-2">
+                                <div className="col-6">
+                                    <input 
+                                        type="number" 
+                                        className="form-control"
+                                        placeholder="Web Tech" 
+                                        min="0" max="100" 
+                                        value={markWT} 
+                                        onChange={(e) => setMarkWT(e.target.value)} 
+                                        required 
+                                    />
+                                </div>
+                                <div className="col-6">
+                                    <input 
+                                        type="number" 
+                                        className="form-control"
+                                        placeholder="DBMS" 
+                                        min="0" max="100" 
+                                        value={markDBMS} 
+                                        onChange={(e) => setMarkDBMS(e.target.value)} 
+                                        required 
+                                    />
+                                </div>
+                            </div>
+                            <input 
+                                type="number" 
+                                className="form-control"
+                                placeholder="Operating Systems" 
+                                min="0" max="100" 
+                                value={markOS} 
+                                onChange={(e) => setMarkOS(e.target.value)} 
+                                required 
+                            />
+                        </div>
+                        <button type="submit" className="btn btn-primary w-100 mt-2">
+                            Add Student Record &rarr;
+                        </button>
+                    </form>
+                </div>
+            );
+        }
+
+        // Component 2: StudentDetails (Renders formatted student display cards)
+        function StudentDetails({ students, onDeleteStudent }) {
+            return (
+                <div className="card p-4 shadow-sm border-0" style={{ background: 'var(--card-bg)', borderRadius: '20px' }}>
+                    <div className="d-flex justify-content-between align-items-center mb-3">
+                        <h4 className="font-heading m-0">&lt;StudentDetails /&gt;</h4>
+                        <span className="badge bg-secondary-subtle text-forest">Display Component</span>
+                    </div>
+                    <p className="text-muted small mb-4">Renders formatted student profile cards with computed totals, percentages, and performance grades.</p>
+
+                    {students.length === 0 ? (
+                        <div className="text-center py-5 text-muted">
+                            <p className="mb-0">No student records present. Use the form on the left to add a record.</p>
+                        </div>
+                    ) : (
+                        students.map((student) => {
+                            const total = student.marks.reduce((a, b) => a + b, 0);
+                            const percentage = ((total / (student.marks.length * 100)) * 100).toFixed(1);
+                            const isPass = student.marks.every(m => m >= 40);
+                            const grade = isPass ? (percentage >= 90 ? 'O' : percentage >= 80 ? 'A+' : percentage >= 70 ? 'A' : percentage >= 60 ? 'B' : 'Pass') : 'Fail';
+
+                            return (
+                                <div className="student-card" key={student.id}>
+                                    <div className="d-flex justify-content-between align-items-start mb-3 flex-wrap gap-2">
+                                        <div>
+                                            <h5 className="font-heading mb-1" style={{ fontSize: '1.3rem' }}>{student.name}</h5>
+                                            <div className="text-muted small">Roll No: <strong>{student.roll}</strong></div>
+                                        </div>
+                                        <div className="d-flex gap-2 align-items-center">
+                                            <span className="badge-dept">{student.dept}</span>
+                                            <button 
+                                                onClick={() => onDeleteStudent(student.id)}
+                                                className="btn btn-outline-danger btn-sm p-1 rounded-circle"
+                                                title="Delete Record"
+                                                style={{ width: '28px', height: '28px', lineHeight: '14px' }}
+                                            >✕</button>
+                                        </div>
+                                    </div>
+
+                                    <div className="row g-2">
+                                        <div className="col-sm-3 col-6">
+                                            <div className="metric-pill">
+                                                <span className="lbl">Marks (WT, DB, OS)</span>
+                                                <span className="val">{student.marks.join(', ')}</span>
+                                            </div>
+                                        </div>
+                                        <div className="col-sm-3 col-6">
+                                            <div className="metric-pill">
+                                                <span className="lbl">Total</span>
+                                                <span className="val">{total} / 300</span>
+                                            </div>
+                                        </div>
+                                        <div className="col-sm-3 col-6">
+                                            <div className="metric-pill">
+                                                <span className="lbl">Percentage</span>
+                                                <span className="val">{percentage}%</span>
+                                            </div>
+                                        </div>
+                                        <div className="col-sm-3 col-6">
+                                            <div className="metric-pill">
+                                                <span className="lbl">Grade</span>
+                                                <span className={`val ${isPass ? 'text-success' : 'text-danger'}`}>
+                                                    {grade} ({isPass ? 'PASS' : 'FAIL'})
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })
+                    )}
+                </div>
+            );
+        }
+
+        // Parent Component: App
+        function App() {
+            const [students, setStudents] = useState([
+                {
+                    id: 1,
+                    name: "Bharvi Bhangale",
+                    roll: "IT-2024-001",
+                    dept: "Information Technology",
+                    marks: [95, 92, 94]
+                },
+                {
+                    id: 2,
+                    name: "Aarav Sharma",
+                    roll: "IT-2024-012",
+                    dept: "Computer Engineering",
+                    marks: [84, 88, 80]
+                },
+                {
+                    id: 3,
+                    name: "Pooja Patil",
+                    roll: "IT-2024-023",
+                    dept: "Information Technology",
+                    marks: [76, 82, 79]
+                }
+            ]);
+
+            const handleAddStudent = (newStudent) => {
+                setStudents([newStudent, ...students]);
+            };
+
+            const handleDeleteStudent = (id) => {
+                setStudents(students.filter(s => s.id !== id));
+            };
+
+            return (
+                <div className="container py-4">
+                    <nav aria-label="breadcrumb" className="mb-4">
+                        <ol className="breadcrumb">
+                            <li className="breadcrumb-item"><a href="index.html">Home</a></li>
+                            <li className="breadcrumb-item"><a href="academics.html">Academics & Labs</a></li>
+                            <li className="breadcrumb-item active" aria-current="page">Assignment 6: React Student Information</li>
+                        </ol>
+                    </nav>
+
+                    <div className="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+                        <div>
+                            <span className="section-subtitle">Web Technology Lab • Assignment 6</span>
+                            <h1 className="font-heading mb-1" style={{ fontSize: '2.4rem' }}>Student Information Application</h1>
+                            <p className="text-muted mb-0">Demonstrating React Component Hierarchy with Parent-Child props passing and controlled state management.</p>
+                        </div>
+                        <span className="badge-react">React 18 Active</span>
+                    </div>
+
+                    <div className="row g-4">
+                        <div className="col-lg-5">
+                            <StudentForm onAddStudent={handleAddStudent} />
+                        </div>
+                        <div className="col-lg-7">
+                            <StudentDetails students={students} onDeleteStudent={handleDeleteStudent} />
+                        </div>
+                    </div>
+
+                    <div className="mt-5 p-4 bg-secondary-subtle rounded-4 text-center">
+                        <h5 className="font-heading mb-2">Assignment 6 Technical Specifications Verified</h5>
+                        <p className="text-muted small mb-0">
+                            Components: <code>&lt;StudentForm /&gt;</code> &bull; <code>&lt;StudentDetails /&gt;</code> &bull; Props & State Management &bull; Dynamic Calculations (Total, % & Grade) &bull; Responsive Design
+                        </p>
+                    </div>
+                </div>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>

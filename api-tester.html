@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REST API Explorer & Client | Assignments 8 & 9</title>
+    
+    <!-- Google Fonts & Bootstrap -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        .code-box {
+            background: #1e1e24;
+            color: #dcdfe4;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.88rem;
+            padding: 16px;
+            border-radius: 12px;
+            overflow-x: auto;
+            max-height: 380px;
+        }
+        .method-badge {
+            font-weight: 700;
+            font-size: 0.75rem;
+            padding: 4px 8px;
+            border-radius: 6px;
+            text-transform: uppercase;
+        }
+        .method-get { background: #dbeafe; color: #1e40af; }
+        .method-post { background: #dcfce7; color: #166534; }
+        .method-put { background: #fef3c7; color: #92400e; }
+        .method-delete { background: #fee2e2; color: #991b1b; }
+        
+        .api-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow-subtle);
+            margin-bottom: 24px;
+        }
+        .endpoint-row {
+            padding: 12px 16px;
+            border-radius: 10px;
+            background: rgba(248, 246, 242, 0.7);
+            border: 1px solid rgba(216, 195, 165, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .endpoint-row:hover, .endpoint-row.active {
+            background: #ffffff;
+            border-color: var(--forest);
+            transform: translateX(4px);
+        }
+        .status-pill-online {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #86efac;
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+        .status-pill-offline {
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fde68a;
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body class="page-api-tester">
+    <!-- Header Navigation -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="index.html" class="logo" id="nav-logo">Bharvi<span>.</span></a>
+            <nav class="nav-links">
+                <a href="index.html" class="nav-link" id="link-hero">Home</a>
+                <a href="story.html" class="nav-link" id="link-story">My Story</a>
+                <a href="ncc.html" class="nav-link" id="link-ncc">NCC</a>
+                <a href="vision.html" class="nav-link" id="link-vision">Vision</a>
+                <a href="academics.html" class="nav-link active" id="link-academics">Academics & Labs</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container" style="padding-top: 110px; padding-bottom: 80px;">
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" className="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="academics.html">Academics & Labs</a></li>
+                <li class="breadcrumb-item active" aria-current="page">REST API Explorer (Assignments 8 & 9)</li>
+            </ol>
+        </nav>
+
+        <!-- Hero Header -->
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+            <div>
+                <span class="section-subtitle">Backend Engineering & REST APIs</span>
+                <h1 class="font-heading mb-1" style="font-size: 2.3rem;">Interactive REST API Explorer</h1>
+                <p class="text-muted mb-0">Test and simulate full CRUD endpoints for <strong>Assignment 8 (Student Records API)</strong> and <strong>Assignment 9 (CRUD Mini Project)</strong>.</p>
+            </div>
+            <div class="d-flex gap-2">
+                <span id="server-status-pill" class="status-pill-offline">
+                    <span class="spinner-grow spinner-grow-sm me-1" role="status"></span>
+                    Testing Connection...
+                </span>
+            </div>
+        </div>
+
+        <!-- Port Notice Alert -->
+        <div class="alert alert-info border-0 rounded-4 shadow-sm mb-4">
+            <div class="d-flex align-items-start gap-3">
+                <div style="font-size: 1.5rem;">💡</div>
+                <div>
+                    <h6 class="fw-bold mb-1">Localhost Ports & Server Guidance</h6>
+                    <p class="small mb-1">
+                        If you encountered <code>http://localhost:400</code>, note that port <strong>400</strong> is a reserved network port. The actual lab servers run on:
+                    </p>
+                    <ul class="small mb-2 ps-3">
+                        <li><strong>Assignment 8 (Student Records API)</strong>: <code>http://localhost:5000</code></li>
+                        <li><strong>Assignment 9 (CRUD Mini Project)</strong>: <code>http://localhost:4000</code></li>
+                    </ul>
+                    <p class="small mb-0 text-muted">
+                        Node.js servers require <code>node server.js</code> to be running in terminal. <strong>Don't worry!</strong> This page features an <strong>In-Browser Simulated REST Engine</strong> that lets you test all CRUD requests immediately without terminal setup!
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs for A8 & A9 -->
+        <ul class="nav nav-pills mb-4" id="api-tabs">
+            <li class="nav-item">
+                <button class="nav-link active fw-bold" id="tab-btn-a8" onclick="switchApiTab('a8')">
+                    Assignment 8: Student Records API (Port 5000)
+                </button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link fw-bold" id="tab-btn-a9" onclick="switchApiTab('a9')">
+                    Assignment 9: Inventory Items Mini Project (Port 4000)
+                </button>
+            </li>
+        </ul>
+
+        <div class="row g-4">
+            <!-- Left Column: Endpoints & Request Config -->
+            <div class="col-lg-5">
+                <div class="api-card">
+                    <h5 class="font-heading mb-3">API Endpoints</h5>
+                    <div id="endpoint-list">
+                        <!-- Populated dynamically based on selected tab -->
+                    </div>
+                </div>
+
+                <div class="api-card">
+                    <h5 class="font-heading mb-3">Request Payload & Parameters</h5>
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Active URL</label>
+                        <input type="text" id="req-url" class="form-control font-monospace small" readonly>
+                    </div>
+                    <div class="mb-3" id="req-id-container" style="display: none;">
+                        <label class="form-label small fw-bold">Record ID Parameter (:id)</label>
+                        <input type="text" id="req-id" class="form-control" value="1">
+                    </div>
+                    <div class="mb-3" id="req-body-container" style="display: none;">
+                        <label class="form-label small fw-bold">JSON Request Body</label>
+                        <textarea id="req-body" class="form-control font-monospace small" rows="7"></textarea>
+                    </div>
+                    <button class="btn btn-primary w-100" id="send-request-btn" onclick="executeApiCall()">
+                        Execute Request &rarr;
+                    </button>
+                </div>
+
+                <!-- How to start local servers -->
+                <div class="api-card">
+                    <h6 class="font-heading mb-2">How to Run Live Backend Server</h6>
+                    <p class="text-muted small mb-2">Open PowerShell or Terminal and run:</p>
+                    <div id="terminal-instructions" class="code-box p-2 mb-2" style="font-size: 0.78rem;">
+                        cd "C:\Users\HERAMBH BIRARIS\.gemini\antigravity\scratch\web-technology-lab\assignment-08-student-crud-api"<br>
+                        node server.js
+                    </div>
+                    <small class="text-muted d-block">Then refresh this page; it will automatically bind to the live Node server!</small>
+                </div>
+            </div>
+
+            <!-- Right Column: Live Output & Response Inspector -->
+            <div class="col-lg-7">
+                <div class="api-card h-100 d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="font-heading m-0">Response Console</h5>
+                        <div class="d-flex gap-2">
+                            <span id="response-status-badge" class="badge bg-secondary">No Request Sent</span>
+                            <span id="response-time-badge" class="badge bg-light text-dark">0 ms</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-2 d-flex justify-content-between align-items-center">
+                        <span class="small text-muted fw-bold">HTTP Response Body (JSON):</span>
+                        <button class="btn btn-sm btn-outline-secondary py-0 px-2" style="font-size: 0.75rem;" onclick="copyResponse()">Copy JSON</button>
+                    </div>
+                    <div class="code-box flex-grow-1 mb-3" id="response-body-box">
+                        // Click an endpoint on the left and hit "Execute Request"
+                        // The JSON response, headers, and HTTP status code will render here.
+                    </div>
+
+                    <div class="mt-auto pt-3 border-top">
+                        <h6 class="font-heading small mb-2">Equivalent cURL Command</h6>
+                        <div class="code-box p-2" id="curl-box" style="font-size: 0.76rem; max-height: 80px;">
+                            curl -X GET http://localhost:5000/api/students
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container text-center py-4">
+            <p class="mb-0 text-muted">&copy; 2026 Bharvi Bhangale &bull; REST API Explorer &bull; SPPU Web Technology Laboratory</p>
+        </div>
+    </footer>
+
+    <script>
+        let currentTab = 'a8';
+        let currentEndpointIndex = 0;
+        let isLiveServer = false;
+
+        // Mock DB for In-Browser Simulation
+        const mockStudentDb = [
+            { id: 1, name: "Bharvi Bhangale", rollNo: "IT-2024-001", email: "bharvi@college.edu", department: "Information Technology", marks: 95 },
+            { id: 2, name: "Aarav Sharma", rollNo: "IT-2024-012", email: "aarav@college.edu", department: "Computer Engineering", marks: 88 },
+            { id: 3, name: "Pooja Patil", rollNo: "IT-2024-023", email: "pooja@college.edu", department: "Information Technology", marks: 82 }
+        ];
+
+        const mockItemDb = [
+            { id: 1, name: "Web Engineering Textbook", category: "Education", price: 650, quantity: 15 },
+            { id: 2, name: "Logitech Ergonomic Mouse", category: "Electronics", price: 1499, quantity: 8 },
+            { id: 3, name: "Notebook Journal Spiral", category: "Stationery", price: 120, quantity: 45 }
+        ];
+
+        const API_CONFIG = {
+            a8: {
+                name: "Assignment 8: Student Records REST API",
+                baseUrl: "http://localhost:5000/api/students",
+                port: 5000,
+                path: "assignment-08-student-crud-api",
+                endpoints: [
+                    { method: "GET", path: "", name: "Get All Students", bodyRequired: false, idRequired: false },
+                    { method: "POST", path: "", name: "Create Student Record", bodyRequired: true, idRequired: false, defaultBody: JSON.stringify({ name: "Rohit Deshmukh", rollNo: "IT-2024-034", email: "rohit@college.edu", department: "Information Technology", marks: 89 }, null, 2) },
+                    { method: "GET", path: "/:id", name: "Get Student by ID", bodyRequired: false, idRequired: true },
+                    { method: "PUT", path: "/:id", name: "Update Student Record", bodyRequired: true, idRequired: true, defaultBody: JSON.stringify({ marks: 96, department: "AI & Data Science" }, null, 2) },
+                    { method: "DELETE", path: "/:id", name: "Delete Student Record", bodyRequired: false, idRequired: true }
+                ]
+            },
+            a9: {
+                name: "Assignment 9: CRUD REST API Mini Project",
+                baseUrl: "http://localhost:4000/items",
+                port: 4000,
+                path: "assignment-09-crud-mini-project",
+                endpoints: [
+                    { method: "GET", path: "", name: "Get All Inventory Items", bodyRequired: false, idRequired: false },
+                    { method: "POST", path: "", name: "Create New Item", bodyRequired: true, idRequired: false, defaultBody: JSON.stringify({ name: "Mechanical Keyboard", category: "Electronics", price: 2999, quantity: 5 }, null, 2) },
+                    { method: "GET", path: "/:id", name: "Get Item by ID", bodyRequired: false, idRequired: true },
+                    { method: "PUT", path: "/:id", name: "Update Item", bodyRequired: true, idRequired: true, defaultBody: JSON.stringify({ price: 2799, quantity: 12 }, null, 2) },
+                    { method: "DELETE", path: "/:id", name: "Delete Item", bodyRequired: false, idRequired: true }
+                ]
+            }
+        };
+
+        function switchApiTab(tab) {
+            currentTab = tab;
+            currentEndpointIndex = 0;
+            document.getElementById('tab-btn-a8').classList.toggle('active', tab === 'a8');
+            document.getElementById('tab-btn-a9').classList.toggle('active', tab === 'a9');
+            
+            document.getElementById('terminal-instructions').innerHTML = 
+                `cd "C:\\Users\\HERAMBH BIRARIS\\.gemini\\antigravity\\scratch\\web-technology-lab\\${API_CONFIG[tab].path}"<br>node server.js`;
+            
+            renderEndpointList();
+            checkServerLiveness();
+            selectEndpoint(0);
+        }
+
+        function renderEndpointList() {
+            const container = document.getElementById('endpoint-list');
+            const cfg = API_CONFIG[currentTab];
+            container.innerHTML = cfg.endpoints.map((ep, idx) => `
+                <div class="endpoint-row ${idx === currentEndpointIndex ? 'active' : ''}" onclick="selectEndpoint(${idx})">
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="method-badge method-${ep.method.toLowerCase()}">${ep.method}</span>
+                        <span class="small fw-semibold">${ep.name}</span>
+                    </div>
+                    <code class="small text-muted">${ep.path || '/'}</code>
+                </div>
+            `).join('');
+        }
+
+        function selectEndpoint(idx) {
+            currentEndpointIndex = idx;
+            renderEndpointList();
+            const cfg = API_CONFIG[currentTab];
+            const ep = cfg.endpoints[idx];
+
+            const idContainer = document.getElementById('req-id-container');
+            const bodyContainer = document.getElementById('req-body-container');
+            const urlInput = document.getElementById('req-url');
+            const bodyTextarea = document.getElementById('req-body');
+
+            idContainer.style.display = ep.idRequired ? 'block' : 'none';
+            bodyContainer.style.display = ep.bodyRequired ? 'block' : 'none';
+
+            let fullUrl = cfg.baseUrl;
+            if (ep.idRequired) {
+                fullUrl += '/' + document.getElementById('req-id').value;
+            }
+            urlInput.value = `${ep.method} ${fullUrl}`;
+
+            if (ep.bodyRequired && ep.defaultBody) {
+                bodyTextarea.value = ep.defaultBody;
+            }
+
+            updateCurlBox();
+        }
+
+        document.getElementById('req-id').addEventListener('input', () => {
+            selectEndpoint(currentEndpointIndex);
+        });
+
+        function updateCurlBox() {
+            const cfg = API_CONFIG[currentTab];
+            const ep = cfg.endpoints[currentEndpointIndex];
+            const idVal = document.getElementById('req-id').value;
+            let fullUrl = cfg.baseUrl + (ep.idRequired ? '/' + idVal : '');
+
+            let curl = `curl -X ${ep.method} "${fullUrl}"`;
+            if (ep.bodyRequired) {
+                curl += ` -H "Content-Type: application/json" -d '${document.getElementById('req-body').value.replace(/\n/g, '')}'`;
+            }
+            document.getElementById('curl-box').textContent = curl;
+        }
+
+        async function checkServerLiveness() {
+            const cfg = API_CONFIG[currentTab];
+            const statusPill = document.getElementById('server-status-pill');
+            statusPill.className = 'status-pill-offline';
+            statusPill.innerHTML = '<span class="spinner-grow spinner-grow-sm me-1"></span> Pinging Port ' + cfg.port + '...';
+
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 1200);
+                const res = await fetch(cfg.baseUrl, { method: 'GET', signal: controller.signal });
+                clearTimeout(timeoutId);
+                
+                isLiveServer = true;
+                statusPill.className = 'status-pill-online';
+                statusPill.innerHTML = `🟢 Live Node.js Active (Port ${cfg.port})`;
+            } catch (err) {
+                isLiveServer = false;
+                statusPill.className = 'status-pill-offline';
+                statusPill.innerHTML = `🟡 Simulation Active (Port ${cfg.port} Offline)`;
+            }
+        }
+
+        async function executeApiCall() {
+            const cfg = API_CONFIG[currentTab];
+            const ep = cfg.endpoints[currentEndpointIndex];
+            const idVal = document.getElementById('req-id').value;
+            let fullUrl = cfg.baseUrl + (ep.idRequired ? '/' + idVal : '');
+
+            const statusBadge = document.getElementById('response-status-badge');
+            const timeBadge = document.getElementById('response-time-badge');
+            const bodyBox = document.getElementById('response-body-box');
+
+            statusBadge.className = 'badge bg-secondary';
+            statusBadge.textContent = 'Sending...';
+            const startTime = performance.now();
+
+            if (isLiveServer) {
+                try {
+                    const opts = {
+                        method: ep.method,
+                        headers: { 'Content-Type': 'application/json' }
+                    };
+                    if (ep.bodyRequired) {
+                        opts.body = document.getElementById('req-body').value;
+                    }
+                    const res = await fetch(fullUrl, opts);
+                    const elapsed = Math.round(performance.now() - startTime);
+                    const data = await res.json();
+
+                    statusBadge.className = res.ok ? 'badge bg-success' : 'badge bg-danger';
+                    statusBadge.textContent = `${res.status} ${res.statusText}`;
+                    timeBadge.textContent = `${elapsed} ms`;
+                    bodyBox.textContent = JSON.stringify(data, null, 2);
+                    return;
+                } catch (err) {
+                    console.warn("Live request failed, switching to in-browser simulation:", err);
+                }
+            }
+
+            // Fallback: In-Browser Simulated REST Engine
+            const elapsed = Math.round(performance.now() - startTime + Math.random() * 25 + 10);
+            timeBadge.textContent = `${elapsed} ms (Simulated)`;
+
+            const db = currentTab === 'a8' ? mockStudentDb : mockItemDb;
+            let responseData = {};
+            let statusCode = 200;
+            let statusText = "OK";
+
+            if (ep.method === 'GET' && !ep.idRequired) {
+                statusCode = 200;
+                statusText = "OK";
+                responseData = {
+                    success: true,
+                    count: db.length,
+                    mode: "Browser Simulated REST API",
+                    message: "Fetched all records successfully",
+                    data: db
+                };
+            } else if (ep.method === 'GET' && ep.idRequired) {
+                const item = db.find(x => String(x.id) === String(idVal));
+                if (item) {
+                    statusCode = 200;
+                    statusText = "OK";
+                    responseData = { success: true, data: item };
+                } else {
+                    statusCode = 404;
+                    statusText = "Not Found";
+                    responseData = { success: false, message: `Record with id ${idVal} not found in database` };
+                }
+            } else if (ep.method === 'POST') {
+                try {
+                    const payload = JSON.parse(document.getElementById('req-body').value);
+                    const newId = db.length > 0 ? Math.max(...db.map(x => x.id)) + 1 : 1;
+                    const newItem = { id: newId, ...payload, createdAt: new Date().toISOString() };
+                    db.push(newItem);
+                    statusCode = 201;
+                    statusText = "Created";
+                    responseData = {
+                        success: true,
+                        message: "Record created successfully",
+                        data: newItem
+                    };
+                } catch (e) {
+                    statusCode = 400;
+                    statusText = "Bad Request";
+                    responseData = { success: false, error: "Invalid JSON format in request body" };
+                }
+            } else if (ep.method === 'PUT') {
+                try {
+                    const payload = JSON.parse(document.getElementById('req-body').value);
+                    const idx = db.findIndex(x => String(x.id) === String(idVal));
+                    if (idx !== -1) {
+                        db[idx] = { ...db[idx], ...payload, updatedAt: new Date().toISOString() };
+                        statusCode = 200;
+                        statusText = "OK";
+                        responseData = { success: true, message: "Record updated successfully", data: db[idx] };
+                    } else {
+                        statusCode = 404;
+                        statusText = "Not Found";
+                        responseData = { success: false, message: `Record with id ${idVal} not found for update` };
+                    }
+                } catch (e) {
+                    statusCode = 400;
+                    statusText = "Bad Request";
+                    responseData = { success: false, error: "Invalid JSON format in request body" };
+                }
+            } else if (ep.method === 'DELETE') {
+                const idx = db.findIndex(x => String(x.id) === String(idVal));
+                if (idx !== -1) {
+                    const deleted = db.splice(idx, 1)[0];
+                    statusCode = 200;
+                    statusText = "OK";
+                    responseData = { success: true, message: "Record deleted successfully", deleted };
+                } else {
+                    statusCode = 404;
+                    statusText = "Not Found";
+                    responseData = { success: false, message: `Record with id ${idVal} not found for deletion` };
+                }
+            }
+
+            statusBadge.className = statusCode < 400 ? 'badge bg-success' : 'badge bg-danger';
+            statusBadge.textContent = `${statusCode} ${statusText}`;
+            bodyBox.textContent = JSON.stringify(responseData, null, 2);
+        }
+
+        function copyResponse() {
+            const body = document.getElementById('response-body-box').textContent;
+            navigator.clipboard.writeText(body);
+            alert("Response JSON copied to clipboard!");
+        }
+
+        // Check URL params for pre-selecting tab
+        const urlParams = new URLSearchParams(window.location.search);
+        const initialTab = urlParams.get('tab') === 'a9' ? 'a9' : 'a8';
+        switchApiTab(initialTab);
+    </script>
+</body>
+</html>
