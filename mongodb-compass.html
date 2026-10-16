@@ -358,15 +358,27 @@
         </div>
 
         <div class="d-flex align-items-center gap-3">
+            <div class="conn-pill" id="realtime-status-pill" style="border: 1px solid var(--mongo-green); color: #00ed64; background: rgba(0, 237, 100, 0.12); font-weight: 600; font-size: 0.78rem;">
+                <span class="conn-dot" style="background: #00ed64; box-shadow: 0 0 8px #00ed64; animation: pulse 1.5s infinite;"></span>
+                <span id="realtime-status-text">LIVE SYNC ACTIVE (Auto-Refresh 2s)</span>
+            </div>
             <div class="conn-pill">
                 <span class="conn-dot"></span>
                 <span>mongodb://127.0.0.1:27017</span>
             </div>
+            <button class="btn btn-sm btn-outline-light" onclick="fetchLiveCollectionData(true)" title="Force Refresh from Database">
+                🔄 Sync Now
+            </button>
             <a href="api-tester.html?tab=a8" class="btn btn-sm btn-outline-light" style="font-size: 0.8rem;">
                 &larr; Back to REST API Explorer
             </a>
         </div>
     </header>
+
+    <!-- Floating Real-Time Sync Notification Toast -->
+    <div id="sync-toast" style="display:none; position:fixed; top:65px; right:24px; z-index:9999; background:#001e2b; color:#00ed64; border:1px solid #00ed64; padding:9px 18px; border-radius:8px; font-size:0.82rem; font-family:'Fira Code', monospace; box-shadow:0 8px 24px rgba(0,0,0,0.4); pointer-events:none; transition:opacity 0.25s ease;">
+        ⚡ Real-time sync: Database updated just now
+    </div>
 
     <!-- 2. Compass Body Split View -->
     <div class="compass-body">
@@ -559,57 +571,159 @@ Type <span style="color:#00ed64">db.students.find()</span> or <span style="color
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
+        const BACKEND_A8_URL = "http://localhost:5000/api/students";
+        const BACKEND_A9_URL = "http://localhost:4000/api/items";
+
         let activeCollection = 'students';
-        let documents = [
-            {
-                _id: "64f8c9b2a7e1d2001a1b0001",
-                name: "Bharvi Bhangale",
-                rollNo: "IT-2024-001",
-                email: "bharvi@kbtcoe.org",
-                department: "Information Technology",
-                marks: [95, 92, 94, 91, 96],
-                totalMarks: 468,
-                percentage: 93.6,
-                grade: "O",
-                status: "Pass",
-                createdAt: "2026-08-15T10:30:00.000Z",
-                updatedAt: "2026-08-15T10:30:00.000Z",
-                __v: 0
-            },
-            {
-                _id: "64f8c9b2a7e1d2001a1b0002",
-                name: "Aarav Sharma",
-                rollNo: "IT-2024-012",
-                email: "aarav@kbtcoe.org",
-                department: "Computer Engineering",
-                marks: [82, 85, 78, 80, 84],
-                totalMarks: 409,
-                percentage: 81.8,
-                grade: "A+",
-                status: "Pass",
-                createdAt: "2026-08-15T10:35:00.000Z",
-                updatedAt: "2026-08-15T10:35:00.000Z",
-                __v: 0
+        let documents = [];
+        let storeItems = [];
+        let lastStudentsHash = '';
+        let lastItemsHash = '';
+        let isInitialLoad = true;
+
+        // ---------------------------------------------------------------------
+        // REAL-TIME BROADCAST & STORAGE SYNCHRONIZATION
+        // ---------------------------------------------------------------------
+        const syncChannel = ('BroadcastChannel' in window) ? new BroadcastChannel('mongo_realtime_sync') : null;
+        if (syncChannel) {
+            syncChannel.onmessage = (event) => {
+                console.log("⚡ [BroadcastChannel] Real-time database event received:", event.data);
+                showSyncToast(`⚡ Real-Time Sync: '${event.data.collection || 'students'}' updated across tabs!`);
+                fetchLiveCollectionData(true);
+            };
+        }
+
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'mongo_realtime_sync_key') {
+                showSyncToast(`⚡ Real-Time Sync: Database update detected!`);
+                fetchLiveCollectionData(true);
             }
-        ];
+        });
 
-        let storeItems = [
-            { _id: "64f8c9b2a7e1d3001a1c0001", id: 1, title: "Full Stack Web Engineering Handbook", code: "SKU-WEB-401", category: "Reference Books", instructor: "Prof. S. R. Patil", price: 850, stock: 35, status: "In Stock" },
-            { _id: "64f8c9b2a7e1d3001a1c0002", id: 2, title: "IoT & Embedded Arduino Development Kit", code: "SKU-IOT-402", category: "Lab Hardware", instructor: "Prof. V. K. Deshmukh", price: 2499, stock: 12, status: "In Stock" },
-            { _id: "64f8c9b2a7e1d3001a1c0003", id: 3, title: "Wireless Mechanical Developer Keyboard", code: "SKU-DEV-403", category: "Developer Gear", instructor: "Prof. Bharvi Bhangale", price: 3499, stock: 4, status: "Low Stock" }
-        ];
+        function broadcastDbChange(action, collection) {
+            if (syncChannel) {
+                syncChannel.postMessage({ type: 'change', action, collection, timestamp: Date.now() });
+            }
+            try {
+                localStorage.setItem('mongo_realtime_sync_key', Date.now());
+            } catch(e) {}
+        }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            renderDocuments(documents);
+        function showSyncToast(msg) {
+            const toast = document.getElementById('sync-toast');
+            if (!toast) return;
+            toast.textContent = msg;
+            toast.style.display = 'block';
+            toast.style.opacity = '1';
+            clearTimeout(window._toastTimeout);
+            window._toastTimeout = setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => { toast.style.display = 'none'; }, 250);
+            }, 3000);
+        }
+
+        // ---------------------------------------------------------------------
+        // LIVE DATA FETCHING ENGINE (REAL-TIME AUTO-POLLING)
+        // ---------------------------------------------------------------------
+        async function fetchLiveCollectionData(forceRender = false) {
+            if (activeCollection === 'students') {
+                try {
+                    const res = await fetch(BACKEND_A8_URL, { cache: 'no-store' });
+                    if (res.ok) {
+                        const json = await res.json();
+                        const newDocs = json.data || [];
+                        const newHash = JSON.stringify(newDocs);
+
+                        if (newHash !== lastStudentsHash || forceRender) {
+                            const isFirst = (lastStudentsHash === '');
+                            lastStudentsHash = newHash;
+                            documents = newDocs;
+                            renderDocuments(documents);
+                            document.getElementById('sidebar-student-count').textContent = documents.length;
+
+                            if (!isFirst && !forceRender) {
+                                showSyncToast(`⚡ Real-Time Sync: ${documents.length} MongoDB documents updated!`);
+                                logShell(`[Live Sync] student_records_db.students auto-synced (${documents.length} records)`);
+                            }
+                        }
+                        updateStatusPill(true, "LIVE SYNC ACTIVE (Auto-Refresh 2s)");
+                        return;
+                    }
+                } catch (e) {
+                    // Fallback to local cache if port 5000 is temporarily offline
+                    updateStatusPill(false, "OFFLINE (Local Memory Active)");
+                }
+            } else if (activeCollection === 'items') {
+                try {
+                    const res = await fetch(BACKEND_A9_URL, { cache: 'no-store' });
+                    if (res.ok) {
+                        const json = await res.json();
+                        const rawItems = json.data || [];
+                        const mappedItems = rawItems.map(item => ({
+                            _id: item._id || ("64f8c9b2a7e1d3001a1c000" + item.id),
+                            ...item
+                        }));
+                        const newHash = JSON.stringify(mappedItems);
+
+                        if (newHash !== lastItemsHash || forceRender) {
+                            lastItemsHash = newHash;
+                            storeItems = mappedItems;
+                            renderDocuments(storeItems);
+                            document.getElementById('sidebar-item-count').textContent = storeItems.length;
+                        }
+                        updateStatusPill(true, "LIVE SYNC ACTIVE (Auto-Refresh 2s)");
+                        return;
+                    }
+                } catch (e) {
+                    updateStatusPill(false, "OFFLINE (Local Memory Active)");
+                }
+            }
+        }
+
+        function updateStatusPill(isLive, label) {
+            const pill = document.getElementById('realtime-status-pill');
+            const txt = document.getElementById('realtime-status-text');
+            if (!pill || !txt) return;
+            txt.textContent = label;
+            if (isLive) {
+                pill.style.borderColor = "var(--mongo-green)";
+                pill.style.color = "#00ed64";
+                pill.style.background = "rgba(0, 237, 100, 0.12)";
+            } else {
+                pill.style.borderColor = "#f59e0b";
+                pill.style.color = "#f59e0b";
+                pill.style.background = "rgba(245, 158, 11, 0.12)";
+            }
+        }
+
+        // ---------------------------------------------------------------------
+        // LIFECYCLE & DOM INITIALIZATION
+        // ---------------------------------------------------------------------
+        document.addEventListener('DOMContentLoaded', async () => {
+            await fetchLiveCollectionData(true);
+            logShell(`Connected to live database backend on port 5000 / 4000.`);
+            logShell(`Auto-refresh daemon initialized: watching collections every 2000ms.`);
+
+            // Periodic live auto-poll every 2 seconds
+            setInterval(() => {
+                fetchLiveCollectionData(false);
+            }, 2000);
         });
 
         function selectCollection(coll) {
             activeCollection = coll;
             document.getElementById('active-coll-title').textContent = coll;
+            document.querySelectorAll('.db-tree-item, .coll-tree-item').forEach(el => el.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+
             if (coll === 'students') {
+                document.getElementById('coll-meta-line').innerHTML = 'Storage Engine: <strong>WiredTiger</strong> &bull; Namespace: <code>student_records_db.students</code> &bull; Indexes: <code>_id_</code>, <code>rollNo_1 (unique)</code>';
                 renderDocuments(documents);
+                fetchLiveCollectionData(true);
             } else {
+                document.getElementById('coll-meta-line').innerHTML = 'Storage Engine: <strong>WiredTiger</strong> &bull; Namespace: <code>campus_store_db.items</code> &bull; Indexes: <code>_id_</code>, <code>code_1</code>';
                 renderDocuments(storeItems);
+                fetchLiveCollectionData(true);
             }
         }
 
@@ -619,7 +733,7 @@ Type <span style="color:#00ed64">db.students.find()</span> or <span style="color
             document.getElementById('sidebar-item-count').textContent = storeItems.length;
 
             if (docs.length === 0) {
-                container.innerHTML = '<div class="alert alert-light text-center py-4">No documents match the current query. Click "Reset" to clear query filters.</div>';
+                container.innerHTML = '<div class="alert alert-light text-center py-4">No documents found. Click "+ Insert Document" to add one.</div>';
                 return;
             }
 
@@ -642,6 +756,8 @@ Type <span style="color:#00ed64">db.students.find()</span> or <span style="color
                             formattedVal = `<span class="bson-num">${v}</span>`;
                         } else if (Array.isArray(v)) {
                             formattedVal = `[ ${v.map(m => `<span class="bson-num">${m}</span>`).join(', ')} ]`;
+                        } else if (typeof v === 'object' && v !== null) {
+                            formattedVal = `<span class="bson-str">${JSON.stringify(v)}</span>`;
                         }
                         return `<div>&nbsp;&nbsp;<span class="bson-key">${k}:</span> ${formattedVal},</div>`;
                     }).join('')}
@@ -656,7 +772,6 @@ Type <span style="color:#00ed64">db.students.find()</span> or <span style="color
             document.getElementById('documents-container').style.display = tabName === 'documents' ? 'block' : 'none';
             document.getElementById('indexes-container').style.display = tabName === 'indexes' ? 'block' : 'none';
             document.getElementById('schema-container').style.display = tabName === 'schema' ? 'block' : 'none';
-            document.getElementById('explain-container')?.remove();
         }
 
         function applyQueryFilter() {
@@ -667,13 +782,12 @@ Type <span style="color:#00ed64">db.students.find()</span> or <span style="color
             }
 
             try {
-                // Support simple query like { rollNo: "IT-2024-001" } or { department: "IT" }
                 const currList = activeCollection === 'students' ? documents : storeItems;
                 const filtered = currList.filter(item => {
                     return JSON.stringify(item).toLowerCase().includes(queryStr.replace(/[{}:"]/g, '').trim().toLowerCase());
                 });
                 renderDocuments(filtered);
-                logShell(`db.${activeCollection}.find(${queryStr}) -> Found ${filtered.length} document(s)`);
+                logShell(`db.${activeCollection}.find(${queryStr}) -> Matched ${filtered.length} document(s) in real time`);
             } catch (e) {
                 alert('Invalid query syntax');
             }
@@ -682,105 +796,132 @@ Type <span style="color:#00ed64">db.students.find()</span> or <span style="color
         function clearQueryFilter() {
             document.getElementById('filter-query').value = '';
             renderDocuments(activeCollection === 'students' ? documents : storeItems);
-            logShell(`db.${activeCollection}.find({}) -> Returned all ${documents.length} document(s)`);
+            logShell(`db.${activeCollection}.find({}) -> Reset filter: showing all records`);
         }
 
         function openInsertModal() {
             new bootstrap.Modal(document.getElementById('modalInsertDoc')).show();
         }
 
-        function submitInsertDocument(e) {
+        async function submitInsertDocument(e) {
             e.preventDefault();
+            const name = document.getElementById('ins-name').value.trim();
+            const rollNo = document.getElementById('ins-roll').value.trim().toUpperCase();
+            const department = document.getElementById('ins-dept').value;
             const marks = document.getElementById('ins-marks').value.split(',').map(m => Number(m.trim()));
-            const total = marks.reduce((a, b) => a + b, 0);
-            const pct = Number(((total / (marks.length * 100)) * 100).toFixed(2));
-            const newDoc = {
-                _id: "64f8c9b2a7e1d2" + Math.floor(100000 + Math.random() * 900000),
-                name: document.getElementById('ins-name').value.trim(),
-                rollNo: document.getElementById('ins-roll').value.trim(),
-                email: "student@kbtcoe.org",
-                department: document.getElementById('ins-dept').value,
-                marks,
-                totalMarks: total,
-                percentage: pct,
-                grade: pct >= 90 ? 'O' : pct >= 80 ? 'A+' : 'A',
-                status: 'Pass',
-                createdAt: new Date().toISOString(),
-                updatedAt: new Date().toISOString(),
-                __v: 0
+
+            if (marks.length !== 5 || marks.some(isNaN)) {
+                alert("Please enter exactly 5 comma-separated numeric marks (e.g. 88, 92, 85, 90, 89)");
+                return;
+            }
+
+            const payload = {
+                name,
+                rollNo,
+                email: `${rollNo.toLowerCase()}@kbtcoe.org`,
+                department,
+                marks
             };
 
-            documents.unshift(newDoc);
-            bootstrap.Modal.getInstance(document.getElementById('modalInsertDoc')).hide();
-            renderDocuments(documents);
-            logShell(`db.students.insertOne({ name: "${newDoc.name}", rollNo: "${newDoc.rollNo}" }) -> acknowledged: true, insertedId: ObjectId("${newDoc._id}")`);
-        }
-
-        function deleteDocument(id) {
-            if (!confirm(`Are you sure you want to execute db.students.deleteOne({ _id: ObjectId("${id}") })?`)) return;
-            documents = documents.filter(d => d._id !== id);
-            renderDocuments(documents);
-            logShell(`db.students.deleteOne({ _id: ObjectId("${id}") }) -> { acknowledged: true, deletedCount: 1 }`);
-        }
-
-        function cloneDocument(idx) {
-            const orig = documents[idx];
-            const cloned = {
-                ...orig,
-                _id: "64f8c9b2a7e1d2" + Math.floor(100000 + Math.random() * 900000),
-                rollNo: orig.rollNo + "-COPY",
-                createdAt: new Date().toISOString(),
-                updatedAt: new Date().toISOString()
-            };
-            documents.splice(idx + 1, 0, cloned);
-            renderDocuments(documents);
-            logShell(`db.students.insertOne(clonedDoc) -> insertedId: ObjectId("${cloned._id}")`);
-        }
-
-        function resetDemoData() {
-            documents = [
-                {
-                    _id: "64f8c9b2a7e1d2001a1b0001",
-                    name: "Bharvi Bhangale",
-                    rollNo: "IT-2024-001",
-                    email: "bharvi@kbtcoe.org",
-                    department: "Information Technology",
-                    marks: [95, 92, 94, 91, 96],
-                    totalMarks: 468,
-                    percentage: 93.6,
-                    grade: "O",
-                    status: "Pass",
-                    createdAt: "2026-08-15T10:30:00.000Z",
-                    updatedAt: "2026-08-15T10:30:00.000Z",
-                    __v: 0
-                },
-                {
-                    _id: "64f8c9b2a7e1d2001a1b0002",
-                    name: "Aarav Sharma",
-                    rollNo: "IT-2024-012",
-                    email: "aarav@kbtcoe.org",
-                    department: "Computer Engineering",
-                    marks: [82, 85, 78, 80, 84],
-                    totalMarks: 409,
-                    percentage: 81.8,
-                    grade: "A+",
-                    status: "Pass",
-                    createdAt: "2026-08-15T10:35:00.000Z",
-                    updatedAt: "2026-08-15T10:35:00.000Z",
-                    __v: 0
+            try {
+                const res = await fetch(BACKEND_A8_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const json = await res.json();
+                if (res.ok && json.success) {
+                    bootstrap.Modal.getInstance(document.getElementById('modalInsertDoc')).hide();
+                    broadcastDbChange('insert', 'students');
+                    await fetchLiveCollectionData(true);
+                    logShell(`db.students.insertOne({ name: "${name}", rollNo: "${rollNo}" }) -> acknowledged: true, insertedId: ObjectId("${json.data._id}")`);
+                    showSyncToast(`✅ Inserted document: ${name} (${rollNo})`);
+                    return;
+                } else {
+                    alert(json.message || "Failed to insert student record.");
                 }
-            ];
-            renderDocuments(documents);
-            logShell(`Demo collections re-seeded. Total documents: ${documents.length}`);
+            } catch (err) {
+                console.warn("Backend insert error:", err);
+            }
+        }
+
+        async function deleteDocument(id) {
+            if (!confirm(`Are you sure you want to execute db.${activeCollection}.deleteOne({ _id: ObjectId("${id}") })?`)) return;
+
+            if (activeCollection === 'students') {
+                try {
+                    const res = await fetch(`${BACKEND_A8_URL}/${id}`, { method: 'DELETE' });
+                    const json = await res.json();
+                    if (res.ok && json.success) {
+                        broadcastDbChange('delete', 'students');
+                        await fetchLiveCollectionData(true);
+                        logShell(`db.students.deleteOne({ _id: ObjectId("${id}") }) -> { acknowledged: true, deletedCount: 1 }`);
+                        showSyncToast(`🗑️ Deleted document ObjectId("${id}")`);
+                        return;
+                    }
+                } catch (e) {
+                    console.warn("Live delete error:", e);
+                }
+                documents = documents.filter(d => d._id !== id);
+                renderDocuments(documents);
+                broadcastDbChange('delete', 'students');
+            } else {
+                const numericId = parseInt(id.replace(/\D/g, '').slice(-1)) || id;
+                try {
+                    await fetch(`${BACKEND_A9_URL}/${numericId}`, { method: 'DELETE' });
+                } catch(e) {}
+                storeItems = storeItems.filter(item => item._id !== id);
+                renderDocuments(storeItems);
+                broadcastDbChange('delete', 'items');
+            }
+        }
+
+        async function cloneDocument(idx) {
+            const list = activeCollection === 'students' ? documents : storeItems;
+            const orig = list[idx];
+            if (!orig) return;
+
+            if (activeCollection === 'students') {
+                const uniqueRoll = (orig.rollNo + "-C" + Math.floor(Math.random() * 90 + 10)).toUpperCase();
+                const payload = {
+                    name: orig.name + " (Cloned)",
+                    rollNo: uniqueRoll,
+                    email: `cloned-${orig.rollNo.toLowerCase()}@kbtcoe.org`,
+                    department: orig.department,
+                    marks: Array.isArray(orig.marks) ? orig.marks : [88, 90, 85, 92, 87]
+                };
+
+                try {
+                    const res = await fetch(BACKEND_A8_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (res.ok) {
+                        broadcastDbChange('clone', 'students');
+                        await fetchLiveCollectionData(true);
+                        logShell(`db.students.insertOne(clonedDoc) -> Cloned with new unique rollNo: ${uniqueRoll}`);
+                        showSyncToast(`📋 Cloned record: ${uniqueRoll}`);
+                        return;
+                    }
+                } catch(e) {}
+            }
+        }
+
+        async function resetDemoData() {
+            logShell(`Triggering live database re-sync...`);
+            await fetchLiveCollectionData(true);
+            showSyncToast(`🔄 Synced with MongoDB`);
         }
 
         function logShell(msg) {
             const output = document.getElementById('shell-output');
+            if (!output) return;
             output.innerHTML += `<br><span style="color:#00ed64">></span> ${msg}`;
             output.scrollTop = output.scrollHeight;
         }
 
-        function runShellCommand() {
+        async function runShellCommand() {
             const input = document.getElementById('shell-input');
             const cmd = input.value.trim();
             if (!cmd) return;
@@ -791,11 +932,17 @@ Type <span style="color:#00ed64">db.students.find()</span> or <span style="color
             if (cmd === 'show dbs') {
                 logShell('admin              40.00 KiB<br>config             12.00 KiB<br>local              72.00 KiB<br>campus_store_db    32.00 KiB<br>student_records_db 48.00 KiB');
             } else if (cmd === 'show collections') {
-                logShell('students');
+                logShell('students<br>system.indexes');
             } else if (cmd.includes('count')) {
-                logShell(`${documents.length}`);
+                const currList = activeCollection === 'students' ? documents : storeItems;
+                logShell(`${currList.length}`);
             } else if (cmd.includes('find')) {
-                logShell(`[<br>&nbsp;&nbsp;ObjectId("${documents[0]._id}"),<br>&nbsp;&nbsp;ObjectId("${documents[1] ? documents[1]._id : ''}")<br>] &bull; ${documents.length} document(s) displayed.`);
+                const currList = activeCollection === 'students' ? documents : storeItems;
+                const sample = currList.slice(0, 3).map(d => `&nbsp;&nbsp;ObjectId("${d._id}")`).join(',<br>');
+                logShell(`[<br>${sample}<br>] &bull; ${currList.length} document(s) in collection '${activeCollection}'.`);
+            } else if (cmd.startsWith('use ')) {
+                const dbName = cmd.split(' ')[1];
+                logShell(`switched to db ${dbName}`);
             } else {
                 logShell(`Executed: ${cmd} (OK)`);
             }

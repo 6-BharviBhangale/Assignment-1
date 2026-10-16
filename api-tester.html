@@ -830,6 +830,34 @@ await Student.findByIdAndDelete(id);        // db.students.deleteOne()
 
         let activeProducts = [];
 
+        // Real-Time Cross-Tab Database Synchronization
+        const syncChannel = ('BroadcastChannel' in window) ? new BroadcastChannel('mongo_realtime_sync') : null;
+        if (syncChannel) {
+            syncChannel.onmessage = (event) => {
+                if (event.data && event.data.collection === 'students') {
+                    fetchA8Students(true);
+                } else if (event.data && event.data.collection === 'items') {
+                    fetchA9Items(true);
+                }
+            };
+        }
+
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'mongo_realtime_sync_key') {
+                fetchA8Students(true);
+                fetchA9Items(true);
+            }
+        });
+
+        function broadcastSyncChange(collection) {
+            if (syncChannel) {
+                syncChannel.postMessage({ type: 'change', collection, timestamp: Date.now() });
+            }
+            try {
+                localStorage.setItem('mongo_realtime_sync_key', Date.now());
+            } catch(e) {}
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             checkServers();
             fetchA8Students();
