@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MongoDB Compass Web Explorer | student_records_db</title>
+    <!-- Google Fonts & Bootstrap -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --mongo-green: #00ed64;
+            --mongo-dark: #001e2b;
+            --mongo-slate: #023430;
+            --bg-canvas: #f9fbfa;
+            --border: #e8edeb;
+            --text-dark: #1c2d38;
+            --text-muted: #5c6c75;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--bg-canvas); color: var(--text-dark); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+
+        /* Compass Header */
+        .compass-header {
+            background-color: var(--mongo-dark);
+            color: #ffffff;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            border-bottom: 1px solid #113b47;
+            user-select: none;
+        }
+
+        .compass-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            letter-spacing: 0.3px;
+        }
+
+        .mongo-leaf {
+            width: 22px;
+            height: 22px;
+            fill: var(--mongo-green);
+        }
+
+        .conn-pill {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: #bbf7d0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .conn-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--mongo-green);
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 8px var(--mongo-green);
+        }
+
+        /* Compass Main Layout */
+        .compass-body {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* Left Sidebar: Databases & Collections */
+        .compass-sidebar {
+            width: 260px;
+            background: #ffffff;
+            border-right: 1px solid #d5e0dc;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .sidebar-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            padding: 14px 16px 8px 16px;
+        }
+
+        .db-tree-item {
+            cursor: pointer;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            transition: background 0.15s;
+        }
+
+        .db-tree-item:hover, .db-tree-item.active {
+            background: #e8f5e9;
+            color: #0f5132;
+        }
+
+        .coll-tree-item {
+            cursor: pointer;
+            padding: 6px 16px 6px 36px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            transition: background 0.15s;
+        }
+
+        .coll-tree-item:hover, .coll-tree-item.active {
+            background: #eaf8f0;
+            color: #023430;
+            font-weight: 600;
+        }
+
+        /* Main Workspace Area */
+        .compass-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background: #ffffff;
+        }
+
+        /* Breadcrumbs & Tab Bar */
+        .content-header {
+            padding: 14px 24px;
+            border-bottom: 1px solid #e8edeb;
+            background: #ffffff;
+        }
+
+        .coll-title-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .coll-name {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--mongo-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-tabs-mongo {
+            display: flex;
+            gap: 24px;
+            border-bottom: 2px solid #e8edeb;
+            margin-top: 8px;
+        }
+
+        .tab-item {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            padding-bottom: 8px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.2s;
+        }
+
+        .tab-item:hover, .tab-item.active {
+            color: #023430;
+            border-bottom-color: var(--mongo-green);
+        }
+
+        /* Query Filter Bar */
+        .filter-bar {
+            background: #f7faf9;
+            border-bottom: 1px solid #e8edeb;
+            padding: 10px 24px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .filter-input-box {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            background: #ffffff;
+            border: 1px solid #c5d3ce;
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+        }
+
+        .filter-input-box input {
+            border: none;
+            outline: none;
+            width: 100%;
+            background: transparent;
+            font-family: inherit;
+        }
+
+        .btn-mongo {
+            background: var(--mongo-green);
+            color: #001e2b;
+            font-weight: 700;
+            font-size: 0.85rem;
+            border: none;
+            padding: 7px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .btn-mongo:hover {
+            background: #00c954;
+        }
+
+        /* Documents Workspace Scrollable Area */
+        .documents-scroll {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 24px;
+            background: #fdfdfd;
+        }
+
+        /* BSON Document Row Card */
+        .bson-doc-card {
+            background: #ffffff;
+            border: 1px solid #d5e0dc;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 14px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            position: relative;
+        }
+
+        .bson-doc-card:hover {
+            border-color: #81c784;
+            box-shadow: 0 3px 8px rgba(0,237,100,0.1);
+        }
+
+        .bson-key { color: #8250df; font-weight: 600; }
+        .bson-str { color: #0a3069; }
+        .bson-num { color: #0550ae; font-weight: 600; }
+        .bson-oid { color: #cf222e; font-weight: 600; }
+        .bson-date { color: #116329; font-style: italic; }
+
+        .doc-toolbar {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .doc-btn {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+        }
+
+        .doc-btn:hover {
+            background: #e2e8f0;
+        }
+
+        /* Bottom mongosh Terminal Drawer */
+        .mongosh-drawer {
+            height: 160px;
+            background: var(--mongo-dark);
+            color: #d1fae5;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.82rem;
+            border-top: 2px solid var(--mongo-green);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .mongosh-header {
+            background: #00141d;
+            padding: 4px 16px;
+            font-size: 0.75rem;
+            color: #94a3b8;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mongosh-output {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px 16px;
+            line-height: 1.5;
+        }
+
+        .mongosh-input-line {
+            display: flex;
+            align-items: center;
+            padding: 6px 16px;
+            background: #001824;
+            border-top: 1px solid #113b47;
+        }
+
+        .mongosh-prompt {
+            color: var(--mongo-green);
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .mongosh-input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #ffffff;
+            font-family: inherit;
+            font-size: inherit;
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. Top MongoDB Compass Header -->
+    <header class="compass-header">
+        <div class="compass-logo">
+            <svg class="mongo-leaf" viewBox="0 0 24 24">
+                <path d="M12 1.5C11.5 2 7 8 7 13.5C7 17.5 9 21.5 12 22.5C15 21.5 17 17.5 17 13.5C17 8 12.5 2 12 1.5ZM12 21C9.8 20.1 8.5 16.7 8.5 13.5C8.5 9.5 11.2 5 12 3.8C12.8 5 15.5 9.5 15.5 13.5C15.5 16.7 14.2 20.1 12 21Z"/>
+            </svg>
+            <span>MongoDB Compass</span>
+            <span style="font-size: 0.75rem; color: #94a3b8; font-weight: normal; margin-left: 8px;">Community v7.0.5</span>
+        </div>
+
+        <div class="d-flex align-items-center gap-3">
+            <div class="conn-pill">
+                <span class="conn-dot"></span>
+                <span>mongodb://127.0.0.1:27017</span>
+            </div>
+            <a href="api-tester.html?tab=a8" class="btn btn-sm btn-outline-light" style="font-size: 0.8rem;">
+                &larr; Back to REST API Explorer
+            </a>
+        </div>
+    </header>
+
+    <!-- 2. Compass Body Split View -->
+    <div class="compass-body">
+        
+        <!-- Left Sidebar: Databases -->
+        <aside class="compass-sidebar">
+            <div class="sidebar-title">Databases (2 User, 3 System)</div>
+
+            <!-- Active Database: student_records_db -->
+            <div class="db-tree-item active" onclick="selectCollection('students')">
+                <span>🗄️</span>
+                <span>student_records_db</span>
+            </div>
+            <div class="coll-tree-item active" onclick="selectCollection('students')">
+                <span>📁 students</span>
+                <span class="badge bg-light text-dark border" id="sidebar-student-count">2</span>
+            </div>
+
+            <!-- Database: campus_store_db -->
+            <div class="db-tree-item" onclick="selectCollection('items')">
+                <span>🗄️</span>
+                <span>campus_store_db</span>
+            </div>
+            <div class="coll-tree-item" onclick="selectCollection('items')">
+                <span>📁 items</span>
+                <span class="badge bg-light text-dark border" id="sidebar-item-count">4</span>
+            </div>
+
+            <div class="sidebar-title mt-3">System Databases</div>
+            <div class="db-tree-item text-muted" style="font-size: 0.82rem; opacity: 0.7;">
+                <span>🔒 admin (1 coll)</span>
+            </div>
+            <div class="db-tree-item text-muted" style="font-size: 0.82rem; opacity: 0.7;">
+                <span>🔒 config (1 coll)</span>
+            </div>
+            <div class="db-tree-item text-muted" style="font-size: 0.82rem; opacity: 0.7;">
+                <span>🔒 local (1 coll)</span>
+            </div>
+        </aside>
+
+        <!-- Right Main: Documents & Query Runner -->
+        <main class="compass-content">
+            
+            <div class="content-header">
+                <div class="coll-title-row">
+                    <div>
+                        <div class="coll-name">
+                            <span style="color: var(--text-muted); font-size: 1.1rem;">student_records_db .</span>
+                            <span id="active-coll-title">students</span>
+                        </div>
+                        <small class="text-muted" id="coll-meta-line">
+                            Storage Engine: <strong>WiredTiger</strong> &bull; Namespace: <code>student_records_db.students</code> &bull; Indexes: <code>_id_</code>, <code>rollNo_1 (unique)</code>
+                        </small>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn-mongo" onclick="openInsertModal()">+ Insert Document</button>
+                        <button class="btn btn-outline-secondary btn-sm" onclick="resetDemoData()">Reset Data</button>
+                    </div>
+                </div>
+
+                <div class="nav-tabs-mongo">
+                    <div class="tab-item active" onclick="switchCompassTab('documents')">Documents</div>
+                    <div class="tab-item" onclick="switchCompassTab('indexes')">Indexes (2)</div>
+                    <div class="tab-item" onclick="switchCompassTab('schema')">Schema Analysis</div>
+                    <div class="tab-item" onclick="switchCompassTab('explain')">Explain Plan</div>
+                </div>
+            </div>
+
+            <!-- Query Filter Bar -->
+            <div class="filter-bar">
+                <div class="filter-input-box">
+                    <span style="color: #94a3b8; font-weight: bold; margin-right: 8px;">FILTER:</span>
+                    <input type="text" id="filter-query" placeholder="{ rollNo: 'IT-2024-001' } or { percentage: { $gte: 90 } }" onkeypress="if(event.key==='Enter') applyQueryFilter()">
+                </div>
+                <button class="btn-mongo" onclick="applyQueryFilter()">Find</button>
+                <button class="btn btn-outline-secondary btn-sm" onclick="clearQueryFilter()">Reset</button>
+            </div>
+
+            <!-- Documents View -->
+            <div class="documents-scroll" id="documents-container">
+                <!-- BSON Document Cards injected dynamically -->
+            </div>
+
+            <!-- Indexes View (Hidden by default) -->
+            <div class="documents-scroll" id="indexes-container" style="display: none;">
+                <h5 class="fw-bold mb-3">Indexes on `student_records_db.students`</h5>
+                <table class="table table-bordered small">
+                    <thead class="table-light">
+                        <tr><th>Index Name</th><th>Fields</th><th>Properties</th><th>Usage</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>_id_</code></td>
+                            <td><code>{ _id: 1 }</code></td>
+                            <td><span class="badge bg-success">Unique (Primary Key)</span></td>
+                            <td>Default B-tree clustered index created on document insertion.</td>
+                        </tr>
+                        <tr>
+                            <td><code>rollNo_1</code></td>
+                            <td><code>{ rollNo: 1 }</code></td>
+                            <td><span class="badge bg-success">Unique Constraint</span></td>
+                            <td>Enforces unique student roll number validation defined in Mongoose schema.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Schema View (Hidden by default) -->
+            <div class="documents-scroll" id="schema-container" style="display: none;">
+                <h5 class="fw-bold mb-3">Mongoose Schema Definition (`models/Student.js`)</h5>
+                <div class="code-box">
+const studentSchema = new mongoose.Schema({
+    name:        { type: String, required: true, trim: true },
+    rollNo:      { type: String, required: true, unique: true, uppercase: true },
+    email:       { type: String, required: true, lowercase: true },
+    department:  { type: String, required: true, enum: ['IT', 'CE', 'AI&DS', 'E&TC'] },
+    marks:       { type: [Number], required: true },
+    totalMarks:  { type: Number, required: true },
+    percentage:  { type: Number, required: true },
+    grade:       { type: String, enum: ['O', 'A+', 'A', 'B', 'C', 'F'] },
+    status:      { type: String, enum: ['Pass', 'Fail'] }
+}, {
+    timestamps: true // Automatically generates createdAt, updatedAt
+});
+                </div>
+            </div>
+
+            <!-- Bottom mongosh Shell Terminal -->
+            <div class="mongosh-drawer">
+                <div class="mongosh-header">
+                    <span>>_ MONGOSH (Interactive MongoDB Shell v2.1.5)</span>
+                    <span style="color: var(--mongo-green);">● Online &bull; student_records_db</span>
+                </div>
+                <div class="mongosh-output" id="shell-output">
+Connecting to: mongodb://127.0.0.1:27017/student_records_db<br>
+Using MongoDB: 7.0.5 &bull; WiredTiger storage engine &bull; Standalone<br>
+Type <span style="color:#00ed64">db.students.find()</span> or <span style="color:#00ed64">show collections</span> to inspect records.
+                </div>
+                <div class="mongosh-input-line">
+                    <span class="mongosh-prompt">student_records_db></span>
+                    <input type="text" class="mongosh-input" id="shell-input" placeholder="try: db.students.find() or show collections" onkeypress="if(event.key==='Enter') runShellCommand()">
+                </div>
+            </div>
+
+        </main>
+
+    </div>
+
+    <!-- Modal: Insert Document -->
+    <div class="modal fade" id="modalInsertDoc" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content rounded-4 border-0">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title font-monospace" style="font-size: 1rem;">db.students.insertOne({ ... })</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <form onsubmit="submitInsertDocument(event)">
+                    <div class="modal-body font-monospace" style="font-size: 0.85rem;">
+                        <div class="mb-2">
+                            <label class="form-label small fw-bold">name (String)</label>
+                            <input type="text" id="ins-name" class="form-control form-control-sm font-monospace" value="Pooja Patil" required>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label small fw-bold">rollNo (String, Unique)</label>
+                            <input type="text" id="ins-roll" class="form-control form-control-sm font-monospace" value="IT-2024-023" required>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label small fw-bold">department (String)</label>
+                            <select id="ins-dept" class="form-select form-select-sm font-monospace">
+                                <option value="Information Technology">Information Technology</option>
+                                <option value="Computer Engineering">Computer Engineering</option>
+                                <option value="AI & Data Science">AI & Data Science</option>
+                            </select>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label small fw-bold">marks (Array of 5 numbers)</label>
+                            <input type="text" id="ins-marks" class="form-control form-control-sm font-monospace" value="88, 92, 85, 90, 89" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn-mongo">Insert Document</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let activeCollection = 'students';
+        let documents = [
+            {
+                _id: "64f8c9b2a7e1d2001a1b0001",
+                name: "Bharvi Bhangale",
+                rollNo: "IT-2024-001",
+                email: "bharvi@kbtcoe.org",
+                department: "Information Technology",
+                marks: [95, 92, 94, 91, 96],
+                totalMarks: 468,
+                percentage: 93.6,
+                grade: "O",
+                status: "Pass",
+                createdAt: "2026-08-15T10:30:00.000Z",
+                updatedAt: "2026-08-15T10:30:00.000Z",
+                __v: 0
+            },
+            {
+                _id: "64f8c9b2a7e1d2001a1b0002",
+                name: "Aarav Sharma",
+                rollNo: "IT-2024-012",
+                email: "aarav@kbtcoe.org",
+                department: "Computer Engineering",
+                marks: [82, 85, 78, 80, 84],
+                totalMarks: 409,
+                percentage: 81.8,
+                grade: "A+",
+                status: "Pass",
+                createdAt: "2026-08-15T10:35:00.000Z",
+                updatedAt: "2026-08-15T10:35:00.000Z",
+                __v: 0
+            }
+        ];
+
+        let storeItems = [
+            { _id: "64f8c9b2a7e1d3001a1c0001", id: 1, title: "Full Stack Web Engineering Handbook", code: "SKU-WEB-401", category: "Reference Books", instructor: "Prof. S. R. Patil", price: 850, stock: 35, status: "In Stock" },
+            { _id: "64f8c9b2a7e1d3001a1c0002", id: 2, title: "IoT & Embedded Arduino Development Kit", code: "SKU-IOT-402", category: "Lab Hardware", instructor: "Prof. V. K. Deshmukh", price: 2499, stock: 12, status: "In Stock" },
+            { _id: "64f8c9b2a7e1d3001a1c0003", id: 3, title: "Wireless Mechanical Developer Keyboard", code: "SKU-DEV-403", category: "Developer Gear", instructor: "Prof. Bharvi Bhangale", price: 3499, stock: 4, status: "Low Stock" }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderDocuments(documents);
+        });
+
+        function selectCollection(coll) {
+            activeCollection = coll;
+            document.getElementById('active-coll-title').textContent = coll;
+            if (coll === 'students') {
+                renderDocuments(documents);
+            } else {
+                renderDocuments(storeItems);
+            }
+        }
+
+        function renderDocuments(docs) {
+            const container = document.getElementById('documents-container');
+            document.getElementById('sidebar-student-count').textContent = documents.length;
+            document.getElementById('sidebar-item-count').textContent = storeItems.length;
+
+            if (docs.length === 0) {
+                container.innerHTML = '<div class="alert alert-light text-center py-4">No documents match the current query. Click "Reset" to clear query filters.</div>';
+                return;
+            }
+
+            container.innerHTML = docs.map((doc, idx) => `
+                <div class="bson-doc-card">
+                    <div class="doc-toolbar">
+                        <button class="doc-btn" onclick="cloneDocument(${idx})">Clone</button>
+                        <button class="doc-btn" onclick="deleteDocument('${doc._id}')" style="color: #b91c1c;">Delete</button>
+                    </div>
+                    <div><span class="bson-key">_id:</span> <span class="bson-oid">ObjectId("${doc._id}")</span>,</div>
+                    ${Object.entries(doc).filter(([k]) => k !== '_id').map(([k, v]) => {
+                        let formattedVal = v;
+                        if (typeof v === 'string') {
+                            if (v.includes('T') && v.endsWith('Z')) {
+                                formattedVal = `<span class="bson-date">ISODate("${v}")</span>`;
+                            } else {
+                                formattedVal = `<span class="bson-str">"${v}"</span>`;
+                            }
+                        } else if (typeof v === 'number') {
+                            formattedVal = `<span class="bson-num">${v}</span>`;
+                        } else if (Array.isArray(v)) {
+                            formattedVal = `[ ${v.map(m => `<span class="bson-num">${m}</span>`).join(', ')} ]`;
+                        }
+                        return `<div>&nbsp;&nbsp;<span class="bson-key">${k}:</span> ${formattedVal},</div>`;
+                    }).join('')}
+                </div>
+            `).join('');
+        }
+
+        function switchCompassTab(tabName) {
+            document.querySelectorAll('.tab-item').forEach(el => el.classList.remove('active'));
+            event.target.classList.add('active');
+
+            document.getElementById('documents-container').style.display = tabName === 'documents' ? 'block' : 'none';
+            document.getElementById('indexes-container').style.display = tabName === 'indexes' ? 'block' : 'none';
+            document.getElementById('schema-container').style.display = tabName === 'schema' ? 'block' : 'none';
+            document.getElementById('explain-container')?.remove();
+        }
+
+        function applyQueryFilter() {
+            const queryStr = document.getElementById('filter-query').value.trim();
+            if (!queryStr) {
+                renderDocuments(activeCollection === 'students' ? documents : storeItems);
+                return;
+            }
+
+            try {
+                // Support simple query like { rollNo: "IT-2024-001" } or { department: "IT" }
+                const currList = activeCollection === 'students' ? documents : storeItems;
+                const filtered = currList.filter(item => {
+                    return JSON.stringify(item).toLowerCase().includes(queryStr.replace(/[{}:"]/g, '').trim().toLowerCase());
+                });
+                renderDocuments(filtered);
+                logShell(`db.${activeCollection}.find(${queryStr}) -> Found ${filtered.length} document(s)`);
+            } catch (e) {
+                alert('Invalid query syntax');
+            }
+        }
+
+        function clearQueryFilter() {
+            document.getElementById('filter-query').value = '';
+            renderDocuments(activeCollection === 'students' ? documents : storeItems);
+            logShell(`db.${activeCollection}.find({}) -> Returned all ${documents.length} document(s)`);
+        }
+
+        function openInsertModal() {
+            new bootstrap.Modal(document.getElementById('modalInsertDoc')).show();
+        }
+
+        function submitInsertDocument(e) {
+            e.preventDefault();
+            const marks = document.getElementById('ins-marks').value.split(',').map(m => Number(m.trim()));
+            const total = marks.reduce((a, b) => a + b, 0);
+            const pct = Number(((total / (marks.length * 100)) * 100).toFixed(2));
+            const newDoc = {
+                _id: "64f8c9b2a7e1d2" + Math.floor(100000 + Math.random() * 900000),
+                name: document.getElementById('ins-name').value.trim(),
+                rollNo: document.getElementById('ins-roll').value.trim(),
+                email: "student@kbtcoe.org",
+                department: document.getElementById('ins-dept').value,
+                marks,
+                totalMarks: total,
+                percentage: pct,
+                grade: pct >= 90 ? 'O' : pct >= 80 ? 'A+' : 'A',
+                status: 'Pass',
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString(),
+                __v: 0
+            };
+
+            documents.unshift(newDoc);
+            bootstrap.Modal.getInstance(document.getElementById('modalInsertDoc')).hide();
+            renderDocuments(documents);
+            logShell(`db.students.insertOne({ name: "${newDoc.name}", rollNo: "${newDoc.rollNo}" }) -> acknowledged: true, insertedId: ObjectId("${newDoc._id}")`);
+        }
+
+        function deleteDocument(id) {
+            if (!confirm(`Are you sure you want to execute db.students.deleteOne({ _id: ObjectId("${id}") })?`)) return;
+            documents = documents.filter(d => d._id !== id);
+            renderDocuments(documents);
+            logShell(`db.students.deleteOne({ _id: ObjectId("${id}") }) -> { acknowledged: true, deletedCount: 1 }`);
+        }
+
+        function cloneDocument(idx) {
+            const orig = documents[idx];
+            const cloned = {
+                ...orig,
+                _id: "64f8c9b2a7e1d2" + Math.floor(100000 + Math.random() * 900000),
+                rollNo: orig.rollNo + "-COPY",
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+            };
+            documents.splice(idx + 1, 0, cloned);
+            renderDocuments(documents);
+            logShell(`db.students.insertOne(clonedDoc) -> insertedId: ObjectId("${cloned._id}")`);
+        }
+
+        function resetDemoData() {
+            documents = [
+                {
+                    _id: "64f8c9b2a7e1d2001a1b0001",
+                    name: "Bharvi Bhangale",
+                    rollNo: "IT-2024-001",
+                    email: "bharvi@kbtcoe.org",
+                    department: "Information Technology",
+                    marks: [95, 92, 94, 91, 96],
+                    totalMarks: 468,
+                    percentage: 93.6,
+                    grade: "O",
+                    status: "Pass",
+                    createdAt: "2026-08-15T10:30:00.000Z",
+                    updatedAt: "2026-08-15T10:30:00.000Z",
+                    __v: 0
+                },
+                {
+                    _id: "64f8c9b2a7e1d2001a1b0002",
+                    name: "Aarav Sharma",
+                    rollNo: "IT-2024-012",
+                    email: "aarav@kbtcoe.org",
+                    department: "Computer Engineering",
+                    marks: [82, 85, 78, 80, 84],
+                    totalMarks: 409,
+                    percentage: 81.8,
+                    grade: "A+",
+                    status: "Pass",
+                    createdAt: "2026-08-15T10:35:00.000Z",
+                    updatedAt: "2026-08-15T10:35:00.000Z",
+                    __v: 0
+                }
+            ];
+            renderDocuments(documents);
+            logShell(`Demo collections re-seeded. Total documents: ${documents.length}`);
+        }
+
+        function logShell(msg) {
+            const output = document.getElementById('shell-output');
+            output.innerHTML += `<br><span style="color:#00ed64">></span> ${msg}`;
+            output.scrollTop = output.scrollHeight;
+        }
+
+        function runShellCommand() {
+            const input = document.getElementById('shell-input');
+            const cmd = input.value.trim();
+            if (!cmd) return;
+            input.value = '';
+
+            logShell(`<span style="color:#ffffff">${cmd}</span>`);
+
+            if (cmd === 'show dbs') {
+                logShell('admin              40.00 KiB<br>config             12.00 KiB<br>local              72.00 KiB<br>campus_store_db    32.00 KiB<br>student_records_db 48.00 KiB');
+            } else if (cmd === 'show collections') {
+                logShell('students');
+            } else if (cmd.includes('count')) {
+                logShell(`${documents.length}`);
+            } else if (cmd.includes('find')) {
+                logShell(`[<br>&nbsp;&nbsp;ObjectId("${documents[0]._id}"),<br>&nbsp;&nbsp;ObjectId("${documents[1] ? documents[1]._id : ''}")<br>] &bull; ${documents.length} document(s) displayed.`);
+            } else {
+                logShell(`Executed: ${cmd} (OK)`);
+            }
+        }
+    </script>
+</body>
+</html>

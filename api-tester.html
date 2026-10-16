@@ -192,7 +192,7 @@
         </div>
 
         <!-- Distinct Tabs -->
-        <ul class="nav nav-pills gap-2 mb-4" id="studioTabs">
+        <ul class="nav nav-pills gap-2 mb-4 align-items-center" id="studioTabs">
             <li class="nav-item">
                 <button class="nav-link active" id="tab-a8-btn" onclick="selectStudioTab('a8')">
                     🗄️ Assignment 8: Student Records REST API &amp; MongoDB (Port 5000)
@@ -207,6 +207,11 @@
                 <button class="nav-link" id="tab-architecture-btn" onclick="selectStudioTab('architecture')">
                     🔬 Where REST API &amp; MongoDB Are Used (Code Walkthrough)
                 </button>
+            </li>
+            <li class="nav-item ms-auto">
+                <a href="mongodb-compass.html" target="_blank" class="btn btn-sm btn-success fw-bold px-3 py-2 shadow-sm d-flex align-items-center gap-1">
+                    🍃 Open MongoDB Compass Database &rarr;
+                </a>
             </li>
         </ul>
 
@@ -224,7 +229,10 @@
                             </div>
                             <small class="text-muted">MongoDB: <code>student_records_db</code> &bull; Collection: <code>students</code> &bull; Mongoose ODM</small>
                         </div>
-                        <div class="d-flex gap-2">
+                        <div class="d-flex gap-2 flex-wrap">
+                            <a href="mongodb-compass.html" target="_blank" class="btn btn-outline-success btn-sm px-3 fw-bold" title="Open MongoDB Compass Database Inspector">
+                                🍃 MongoDB Compass
+                            </a>
                             <button class="btn btn-primary btn-sm px-3" onclick="openA8CreateModal()">
                                 + Insert Document (POST)
                             </button>
